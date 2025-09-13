@@ -1,0 +1,61 @@
+[gd_scene load_steps=12 format=3 uid="uid://b0wly204l2ena"]
+
+[ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/player/PlayerController.gd" id="1_3d8xk"]
+[ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
+[ext_resource type="Script" uid="uid://3jpbtgk2ox3v" path="res://scripts/state-machine/StateMachine.gd" id="3_0kck2"]
+[ext_resource type="Script" uid="uid://ou7jgye53qs2" path="res://scripts/player/states/PlayerExploration.gd" id="3_jeygn"]
+[ext_resource type="Script" uid="uid://bd1bg5dlw84wy" path="res://scripts/player/states/PlayerCombat.gd" id="4_0kck2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3d8xk"]
+albedo_texture = ExtResource("1_hcqin")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hcqin"]
+material = SubResource("StandardMaterial3D_3d8xk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcqin"]
+albedo_color = Color(0.26779, 0.26779, 0.26779, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3d8xk"]
+material = SubResource("StandardMaterial3D_hcqin")
+size = Vector3(0.75, 0.25, 0.25)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3d8xk"]
+radius = 20.0
+
+[node name="PlayerController" type="CharacterBody3D"]
+collision_mask = 3
+script = ExtResource("1_3d8xk")
+
+[node name="CollisionMesh" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hcqin")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_hcqin")
+
+[node name="Eyes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.549, -0.399)
+
+[node name="EyesMesh" type="MeshInstance3D" parent="Eyes"]
+mesh = SubResource("BoxMesh_3d8xk")
+skeleton = NodePath("../..")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_0kck2")
+initial_state = NodePath("exploration")
+
+[node name="exploration" type="Node" parent="StateMachine"]
+script = ExtResource("3_jeygn")
+
+[node name="combat" type="Node" parent="StateMachine"]
+script = ExtResource("4_0kck2")
+
+[node name="LockonArea" type="Area3D" parent="StateMachine/combat"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StateMachine/combat/LockonArea"]
+shape = SubResource("CylinderShape3D_3d8xk")
+debug_color = Color(0.88639, 0.330535, 0, 0.42)

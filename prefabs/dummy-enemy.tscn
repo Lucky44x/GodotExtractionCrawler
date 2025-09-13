@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbgkvj2scfsjq"]
+
+[ext_resource type="Texture2D" uid="uid://v6si7b0dpn03" path="res://assets/debug/textures/Red/texture_09.png" id="1_mhm8o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mt00v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_488gm"]
+albedo_color = Color(0.758192, 0.758192, 0.758192, 1)
+albedo_texture = ExtResource("1_mhm8o")
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_mhm8o"]
+material = SubResource("StandardMaterial3D_488gm")
+
+[node name="DummyEnemy" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_mt00v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("SphereMesh_mhm8o")
