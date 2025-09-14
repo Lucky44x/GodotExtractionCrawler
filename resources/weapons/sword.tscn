@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbdje1rwc1pwn"]
+
+[ext_resource type="Script" uid="uid://djoryqso5o1ye" path="res://scripts/item/Weapon.gd" id="1_0qsxf"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ft5er"]
+height = 1.0
+radius = 0.25
+
+[node name="Sword" type="Node3D" node_paths=PackedStringArray("hitscan_area")]
+script = ExtResource("1_0qsxf")
+hitscan_area = NodePath("HitScanArea")
+
+[node name="Handle" type="CSGBox3D" parent="."]
+size = Vector3(0.1, 0.25, 0.1)
+
+[node name="Guard" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150143, 0)
+size = Vector3(0.1, 0.05, 0.25)
+
+[node name="Blade" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518469, 0)
+size = Vector3(0.0427246, 0.814941, 0.113281)
+
+[node name="HitScanArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.688557, 0)
+collision_layer = 5
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape3D" parent="HitScanArea"]
+shape = SubResource("CylinderShape3D_ft5er")
+debug_color = Color(0.981387, 0, 0.371502, 0.42)

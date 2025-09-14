@@ -23,16 +23,14 @@ func _physics_process(delta: float):
 	if current_state:
 		current_state.PhysicsUpdate(delta)
 
-func on_child_transition(state: State, new_state_name: String):
+func on_child_transition(state: State, new_state_name: String, silent_entry: bool = false, silent_exit: bool = false):
 	if state != current_state:
 		return
 		
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
-	
-	if current_state:
-		current_state.Exit()
 		
+	if current_state and not silent_exit: current_state.Exit()
 	current_state = new_state
-	current_state.Enter()
+	if not silent_entry: current_state.Enter()

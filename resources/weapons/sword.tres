@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=3 format=3 uid="uid://xn4rk8nmql2l"]
+
+[ext_resource type="Script" uid="uid://ugxrfankbuyl" path="res://scripts/resources/WeaponData.gd" id="1_0w5r0"]
+[ext_resource type="PackedScene" uid="uid://bbdje1rwc1pwn" path="res://resources/weapons/sword.tscn" id="1_t8t18"]
+
+[resource]
+script = ExtResource("1_0w5r0")
+damage = 2
+name = "Sword"
+descriptor = "The most basic of weapons"
+rarity = 0
+prefab = ExtResource("1_t8t18")
+metadata/_custom_type_script = "uid://ugxrfankbuyl"

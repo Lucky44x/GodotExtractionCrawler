@@ -15,9 +15,11 @@ func Enter():
 
 func Exit():
 	controller.current_target = null
-	
+
 func Update(delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): Transitioned.emit(self, "exploration")
+	if Input.is_action_just_pressed("combat_dodge"): Transitioned.emit(self, "dodge", false, true)
+	if Input.is_action_just_released("combat_attack"): Transitioned.emit(self, "light_attack", false, true)
 
 func get_enemy() -> Node3D:
 	# Set tracking-target to closest enemy
