@@ -1,11 +1,18 @@
 extends Node
+class_name EquipmentHandler
 
 signal hitscan_callback
 var isHitscanActive = false
+var hitlist: Array[Node3D] = []
+
+var blocking_since: int = -1
 
 @export_group("Meta-Properties")
 @export var animator: AnimationPlayer
 @export var current_weapon: Weapon
+
+@export_group("Combat Settings")
+@export var parryTiming = 50
 
 @export_group("Equipment-Data")
 @export var equipped_item_L: ItemData
@@ -42,10 +49,8 @@ func equip_item(left: bool, item: ItemData):
 	if instance is Weapon:
 		current_weapon = instance
 
-func perform_action(left: bool, action_name: String):
-	var suffix = "_R"
-	if left: suffix = "_L"
-	animator.play(action_name + suffix)
+func perform_action(action_name: String):
+	animator.play(action_name)
 
 func abort_action():
 	animator.stop(false)
@@ -57,11 +62,29 @@ func _process(delta: float):
 	var hits = current_weapon.hitscan_area.get_overlapping_bodies()
 	if not hits or len(hits) == 0: return
 	
-	# TODO: WILL HIT THE SAME ENEMY MULTIPLE TIMES... BETTER: SAVE HIT ENEMY-IDS AND IGNORE
-	hitscan_callback.emit(hits)
+	for hit in hits:
+		if not hitlist.has(hit):
+			hitscan_callback.emit(hit)
+			hitlist.push_front(hit)
 
 func start_hitscan():
 	isHitscanActive = true
 
 func end_hitscan():
 	isHitscanActive = false
+	hitlist.clear()
+
+func damage():
+	pass
+
+func is_blocking() -> bool:
+	if blocking_since > -1:
+		if not is_parry():
+			$"..".move_and_collide($"..".basis.z * 0.5)
+		return true
+	return false
+
+func is_parry() -> bool:
+	if blocking_since == -1: return false
+	if Time.get_ticks_msec() - blocking_since <= parryTiming: return true
+	return false

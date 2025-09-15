@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=24 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cswsab1j0q4vn" path="res://scripts/player/states/PlayerDodge.gd" id="6_6wift"]
 [ext_resource type="Script" uid="uid://duuf2arlvllj5" path="res://scripts/player/states/PlayerAttackLight.gd" id="7_0qcyq"]
 [ext_resource type="Script" uid="uid://bns626ho4772g" path="res://scripts/player/EquipmentHandler.gd" id="7_1t8we"]
+[ext_resource type="Script" uid="uid://bsf3xyu8agk10" path="res://scripts/player/states/PlayerBlock.gd" id="8_0qcyq"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/sword.tres" id="8_tofid"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
@@ -39,9 +40,9 @@ tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("HandR")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5)
+tracks/0/keys = PackedFloat32Array(0, 1, 0.385793, -0.11935, -0.757124)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qcyq"]
 _data = {
@@ -49,6 +50,7 @@ _data = {
 }
 
 [sub_resource type="Animation" id="Animation_d3mra"]
+length = 0.834
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -81,8 +83,55 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_t2i2o"]
+length = 0.25
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandR")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5, 0.233333, 1, 0.333987, 0, -0.802679)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandR")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.307656, 0.951498)
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_lmqpx"]
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandR")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.333987, 0, -0.802679, 0.5, 1, 0.385793, -0.11935, -0.757124, 1, 1, 0.333987, 0, -0.802679)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandR")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0.307656, 0.951498)
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2i2o"]
 _data = {
+&"block_R": SubResource("Animation_lmqpx"),
+&"block_enter_R": SubResource("Animation_t2i2o"),
 &"light_attack_R": SubResource("Animation_d3mra")
 }
 
@@ -128,20 +177,24 @@ dodge_curve = SubResource("Curve_6wift")
 [node name="light_attack" type="Node" parent="StateMachine"]
 script = ExtResource("7_0qcyq")
 
+[node name="block" type="Node" parent="StateMachine"]
+script = ExtResource("8_0qcyq")
+
 [node name="Equipment" type="Node3D" parent="." node_paths=PackedStringArray("animator", "hand_L", "hand_R")]
 script = ExtResource("7_1t8we")
-animator = NodePath("AttackAnimator")
+animator = NodePath("CombatAnimator")
+parryTiming = 150
 equipped_item_R = ExtResource("8_tofid")
 hand_L = NodePath("HandL")
 hand_R = NodePath("HandR")
 
 [node name="HandR" type="Node3D" parent="Equipment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385793, -0.11935, -0.757124)
 
 [node name="HandL" type="Node3D" parent="Equipment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
 
-[node name="AttackAnimator" type="AnimationPlayer" parent="Equipment"]
+[node name="CombatAnimator" type="AnimationPlayer" parent="Equipment"]
 libraries = {
 &"": SubResource("AnimationLibrary_0qcyq"),
 &"combat": SubResource("AnimationLibrary_t2i2o")

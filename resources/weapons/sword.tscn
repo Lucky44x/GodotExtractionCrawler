@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://djoryqso5o1ye" path="res://scripts/item/Weapon.gd" id="1_0qsxf"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ft5er"]
-height = 1.0
-radius = 0.25
+height = 1.57019
+radius = 0.350586
 
 [node name="Sword" type="Node3D" node_paths=PackedStringArray("hitscan_area")]
 script = ExtResource("1_0qsxf")

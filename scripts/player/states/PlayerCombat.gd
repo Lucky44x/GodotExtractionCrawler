@@ -5,13 +5,13 @@ func _ready():
 	controller = $"../.."
 
 func Enter():
+	controller.speed = 7
 	var target = get_enemy()
 	if not target:
 		Transitioned.emit(self, "exploration")
 		return
 	
 	controller.current_target = target
-	controller.speed = 7
 
 func Exit():
 	controller.current_target = null
@@ -19,6 +19,7 @@ func Exit():
 func Update(delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): Transitioned.emit(self, "exploration")
 	if Input.is_action_just_pressed("combat_dodge"): Transitioned.emit(self, "dodge", false, true)
+	if Input.is_action_pressed("combat_block"): Transitioned.emit(self, "block", false, true)
 	if Input.is_action_just_released("combat_attack"): Transitioned.emit(self, "light_attack", false, true)
 
 func get_enemy() -> Node3D:

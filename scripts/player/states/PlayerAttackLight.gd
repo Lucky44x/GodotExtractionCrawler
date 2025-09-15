@@ -13,7 +13,7 @@ func on_action_finished(_arg: String):
 
 func Enter():
 	equipment_handler.hitscan_callback.connect(on_hitscan_connect)
-	equipment_handler.perform_action(false, "combat/light_attack")
+	equipment_handler.perform_action("combat/light_attack_R")
 	controller.speed = 1.5
 	#controller.locked = true
 
@@ -27,6 +27,6 @@ func Update(delta: float):
 		equipment_handler.abort_action()
 		Transitioned.emit(self, "dodge", false, false)
 
-func on_hitscan_connect(collisions: Array[Node3D]):
-	print("Hit ", collisions)
+func on_hitscan_connect(collision):
+	print("Hit ", collision)
 	Input.start_joy_vibration(0, 0.25, 0, 0.1)
