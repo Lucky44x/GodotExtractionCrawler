@@ -26,6 +26,9 @@ func Update(_delta: float):
 	if Input.is_action_pressed("combat_block"): parent.push_transient_state(self, "trans_block")
 	elif Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "walking")
 	elif Input.is_action_just_pressed("combat_dodge"): parent.push_transient_state(self, "trans_dodge")
+	elif Input.is_action_just_released("combat_attack"):
+		# Check if strong attack or light attack
+		parent.push_transient_state(self, "trans_attack")
 
 func get_closest_enemy() -> Node3D:
 	var targets = $LockonArea.get_overlapping_bodies()

@@ -4,9 +4,11 @@ class_name CombatController
 @export var combat_animator: AnimationTree
 @export var parry_window: int
 
+# Animator
+var animation_sm: AnimationNodeStateMachinePlayback
+
 # Attacking state
 var active_weapon: Weapon
-var active_profile: AttackProfile
 
 # Blocking state
 var blocking_since: int = -1
@@ -37,7 +39,7 @@ signal OnOutgoingAttackParried
 signal OnOutgoingAttackBlocked
 
 func _ready():
-	pass
+	animation_sm = combat_animator["parameters/playback"]
 
 # Exposed and used by attacking combat-controller
 func IsBlocked() -> bool:
@@ -46,8 +48,16 @@ func IsParried() -> bool:
 	if blocking_since <= -1: return false							# Better safe than sorry
 	return Time.get_ticks_msec() - blocking_since < parry_window	# Parried, when time since block started fits into the parry-window
 
+# Block functions
+func StartBlocking():
+	animation_sm.travel("blocking")
+
+func EndBlocking():
+	animation_sm.travel("block_exit")
+
 # Attack functions
-func StartLightAttack(weapon: Weapon, profile: AttackProfile)
+func StartLightAttack(weapon: Weapon):
+	animation_sm.travel("attack_light")
 
 ## Applies the given value to a given stat
 func ApplyStatChange(type: GameInfo.StatType, value: float):

@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/sword.tres" id="8_tofid"]
 [ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/player/EquipmentManager.gd" id="9_0qcyq"]
-[ext_resource type="PackedScene" uid="uid://bbdje1rwc1pwn" path="res://resources/weapons/sword.tscn" id="9_lmqpx"]
+[ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="10_d3mra"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
 
@@ -46,6 +46,37 @@ tracks/0/keys = PackedFloat32Array(0, 1, 0.385793, -0.11935, -0.757124)
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qcyq"]
 _data = {
 &"RESET": SubResource("Animation_y20tv")
+}
+
+[sub_resource type="Animation" id="Animation_t2i2o"]
+length = 0.25
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandR")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5, 0.233333, 1, 0.333987, 0, -0.802679)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandR")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.307656, 0.951498)
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CombatController")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.23333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"internal_begin_blocking"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_lmqpx"]
@@ -99,37 +130,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_t2i2o"]
-length = 0.25
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5, 0.233333, 1, 0.333987, 0, -0.802679)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HandR")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.307656, 0.951498)
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../CombatController")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.23333333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"internal_begin_blocking"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2i2o"]
 _data = {
 &"block_enter_weapon": SubResource("Animation_t2i2o"),
@@ -171,8 +171,6 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gqpng"]
 break_loop_at_end = true
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tm53r"]
 switch_mode = 2
@@ -191,7 +189,7 @@ states/block_exit/position = Vector2(287.6667, 272.55554)
 states/blocking/node = SubResource("AnimationNodeAnimation_k1vjg")
 states/blocking/position = Vector2(438.55557, 272.3333)
 transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransition_nvc1o"), "RESET", "attack_light", SubResource("AnimationNodeStateMachineTransition_eqfsk"), "attack_light", "RESET", SubResource("AnimationNodeStateMachineTransition_wgn03"), "RESET", "block_enter", SubResource("AnimationNodeStateMachineTransition_250kt"), "block_enter", "blocking", SubResource("AnimationNodeStateMachineTransition_ohd7q"), "blocking", "block_exit", SubResource("AnimationNodeStateMachineTransition_gqpng"), "block_exit", "RESET", SubResource("AnimationNodeStateMachineTransition_tm53r")]
-graph_offset = Vector2(-211, 59)
+graph_offset = Vector2(-390, 48)
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 3
@@ -240,12 +238,13 @@ script = ExtResource("7_0qcyq")
 [node name="trans_dodge" type="Node" parent="StateMachine"]
 script = ExtResource("8_d3mra")
 
+[node name="trans_attack" type="Node" parent="StateMachine"]
+script = ExtResource("9_lmqpx")
+
 [node name="Rig" type="Node3D" parent="."]
 
 [node name="HandR" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385793, -0.11935, -0.757124)
-
-[node name="Sword" parent="Rig/HandR" instance=ExtResource("9_lmqpx")]
 
 [node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
@@ -269,5 +268,5 @@ SlotConstraints = Array[int]([0])
 
 [node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("combat_animator")]
 script = ExtResource("10_d3mra")
-combat_animator = NodePath("../Rig/CombatAnimator")
+combat_animator = NodePath("../Rig/AnimationTree")
 parry_window = 150

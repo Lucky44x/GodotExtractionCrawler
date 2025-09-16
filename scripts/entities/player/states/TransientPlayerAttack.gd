@@ -1,24 +1,26 @@
 extends State
 
-@export var player_blocking_speed = 1.5
+@export var player_attacking_speed = 1.5
 
 var controller: PlayerController
 var combat_controller: CombatController
+var equipment_controller: EquipmentManager
 var previous_speed: float
 
 func _ready():
 	controller = $"../.."
 	combat_controller = $"../../CombatController"
+	equipment_controller = $"../../Equipment"
 
 func Enter():
 	# Slow player down during bocking, but remember previous speed to reset on exit
 	previous_speed = controller.speed
-	controller.speed = player_blocking_speed
-	combat_controller.StartBlocking()
+	controller.speed = player_attacking_speed
+	combat_controller.StartLightAttack(equipment_controller.active_weapon)
 
 func Exit():
 	controller.speed = previous_speed
-	combat_controller.EndBlocking()
 
 func Update(_delta: float):
-	if not Input.is_action_pressed("combat_block"): parent.pop_transient_state()
+	if Input.is_action_just_pressed("combat_block"):
+		parent.pop_transient_state()
