@@ -8,3 +8,18 @@ enum ItemRarity {
 	Epic,
 	Ancient
 }
+
+enum ItemType {
+	Weapon,
+	Defense,
+	Ranged,
+	Body,
+	Arm,
+	Legs,
+}
+
+# TODO: Add more effects
+enum StatType {
+	Health,
+	Mana
+}

@@ -2,6 +2,7 @@ extends Resource
 class_name ItemData
 
 @export var name: String
+@export var type: GameInfo.ItemType
 @export_multiline var descriptor: String
 @export var rarity: GameInfo.ItemRarity
 @export var prefab: PackedScene

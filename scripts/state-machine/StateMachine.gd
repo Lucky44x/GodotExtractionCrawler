@@ -1,15 +1,21 @@
 extends Node
+class_name StateMachine
 
 @export var initial_state : State
 
+var state_stack : Array[State] = []
 var current_state : State
+
 var states : Dictionary = {}
+
+func is_active(state: State) -> bool:
+	return state == current_state
 
 func _ready():
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
-			child.Transitioned.connect(on_child_transition)
+			child.parent = self
 	
 	if initial_state:
 		initial_state.Enter()
@@ -23,14 +29,31 @@ func _physics_process(delta: float):
 	if current_state:
 		current_state.PhysicsUpdate(delta)
 
-func on_child_transition(state: State, new_state_name: String, silent_entry: bool = false, silent_exit: bool = false):
-	if state != current_state:
-		return
-		
-	var new_state = states.get(new_state_name.to_lower())
-	if !new_state:
-		return
-		
-	if current_state and not silent_exit: current_state.Exit()
-	current_state = new_state
-	if not silent_entry: current_state.Enter()
+func set_current_state(state: State):
+	current_state = state
+	state.Enter()
+
+func state_transition(caller: State, new_state_name: String):
+	if caller != current_state: return
+	if new_state_name.contains("trans_"): push_error("State ", new_state_name, " is marked as transient (trans_) and may introduce unintented behaviour by not being treated as such")
+	
+	var state = states.get(new_state_name.to_lower())
+	if not state: return
+	
+	current_state.Exit()
+	set_current_state(state)
+
+func push_transient_state(caller: State, new_state_name: String):
+	if caller != current_state: return
+	if not new_state_name.contains("trans_"): push_error("State ", new_state_name, " is not marked as transient (trans_) and may introduce unintented behaviour by being treated as such")
+	
+	var state = states.get(new_state_name.to_lower())
+	if not state: return
+	
+	state_stack.push_back(current_state)
+	set_current_state(state)
+
+func pop_transient_state():
+	if len(state_stack) <= 0: return
+	current_state.Exit()
+	current_state = state_stack.pop_back()

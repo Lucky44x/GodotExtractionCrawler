@@ -1,15 +1,18 @@
-[gd_scene load_steps=24 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=39 format=3 uid="uid://b0wly204l2ena"]
 
-[ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/player/PlayerController.gd" id="1_3d8xk"]
+[ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
 [ext_resource type="Script" uid="uid://3jpbtgk2ox3v" path="res://scripts/state-machine/StateMachine.gd" id="3_0kck2"]
-[ext_resource type="Script" uid="uid://ou7jgye53qs2" path="res://scripts/player/states/PlayerExploration.gd" id="3_jeygn"]
-[ext_resource type="Script" uid="uid://bd1bg5dlw84wy" path="res://scripts/player/states/PlayerCombat.gd" id="4_0kck2"]
-[ext_resource type="Script" uid="uid://cswsab1j0q4vn" path="res://scripts/player/states/PlayerDodge.gd" id="6_6wift"]
-[ext_resource type="Script" uid="uid://duuf2arlvllj5" path="res://scripts/player/states/PlayerAttackLight.gd" id="7_0qcyq"]
-[ext_resource type="Script" uid="uid://bns626ho4772g" path="res://scripts/player/EquipmentHandler.gd" id="7_1t8we"]
-[ext_resource type="Script" uid="uid://bsf3xyu8agk10" path="res://scripts/player/states/PlayerBlock.gd" id="8_0qcyq"]
+[ext_resource type="Script" uid="uid://r7ggknfdcijq" path="res://scripts/entities/player/states/PlayerWalking.gd" id="3_jeygn"]
+[ext_resource type="Script" uid="uid://cvxdrd2m5vbgf" path="res://scripts/entities/player/states/PlayerCombat.gd" id="4_0kck2"]
+[ext_resource type="Script" uid="uid://dgw2r4365cdvh" path="res://scripts/entities/player/states/TransientPlayerRunning.gd" id="5_d3mra"]
+[ext_resource type="Script" uid="uid://cqsis73v5qr3t" path="res://scripts/entities/player/states/TransientPlayerBlock.gd" id="7_0qcyq"]
+[ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/sword.tres" id="8_tofid"]
+[ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/player/EquipmentManager.gd" id="9_0qcyq"]
+[ext_resource type="PackedScene" uid="uid://bbdje1rwc1pwn" path="res://resources/weapons/sword.tscn" id="9_lmqpx"]
+[ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="10_d3mra"]
+[ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
 
@@ -30,10 +33,6 @@ size = Vector3(0.75, 0.25, 0.25)
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3d8xk"]
 radius = 20.0
 
-[sub_resource type="Curve" id="Curve_6wift"]
-_data = [Vector2(0, 0), 0.0, 3.08613, 0, 0, Vector2(0.4, 1), 0.0, 0.0, 0, 0, Vector2(0.718861, 0.219653), -1.50396, -1.50396, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 4
-
 [sub_resource type="Animation" id="Animation_y20tv"]
 length = 0.001
 tracks/0/type = "position_3d"
@@ -48,6 +47,23 @@ tracks/0/keys = PackedFloat32Array(0, 1, 0.385793, -0.11935, -0.757124)
 _data = {
 &"RESET": SubResource("Animation_y20tv")
 }
+
+[sub_resource type="Animation" id="Animation_lmqpx"]
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandR")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.333987, 0, -0.802679, 0.5, 1, 0.385793, -0.11935, -0.757124, 1, 1, 0.333987, 0, -0.802679)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandR")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0.307656, 0.951498)
 
 [sub_resource type="Animation" id="Animation_d3mra"]
 length = 0.834
@@ -68,18 +84,18 @@ tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0.916912, -0.117709
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".")
+tracks/2/path = NodePath("../CombatController")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.333333, 0.6),
+"times": PackedFloat32Array(0.33333334, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"start_hitscan"
+"method": &"internal_begin_hitscan"
 }, {
 "args": [],
-"method": &"end_hitscan"
+"method": &"internal_end_hitscan"
 }]
 }
 
@@ -102,62 +118,110 @@ tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.307656
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".")
+tracks/2/path = NodePath("../CombatController")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
+"times": PackedFloat32Array(0.23333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"internal_begin_blocking"
+}]
 }
-
-[sub_resource type="Animation" id="Animation_lmqpx"]
-loop_mode = 1
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.333987, 0, -0.802679, 0.5, 1, 0.385793, -0.11935, -0.757124, 1, 1, 0.333987, 0, -0.802679)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HandR")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0.307656, 0.951498)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2i2o"]
 _data = {
-&"block_R": SubResource("Animation_lmqpx"),
-&"block_enter_R": SubResource("Animation_t2i2o"),
-&"light_attack_R": SubResource("Animation_d3mra")
+&"block_enter_weapon": SubResource("Animation_t2i2o"),
+&"block_weapon": SubResource("Animation_lmqpx"),
+&"l_attack_oh_sword": SubResource("Animation_d3mra")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lmqpx"]
+animation = &"RESET"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nvc1o"]
+animation = &"combat/l_attack_oh_sword"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eqfsk"]
+animation = &"combat/block_enter_weapon"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wgn03"]
+animation = &"combat/block_enter_weapon"
+play_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k1vjg"]
+animation = &"combat/block_weapon"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nvc1o"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eqfsk"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wgn03"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_250kt"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ohd7q"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gqpng"]
+break_loop_at_end = true
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tm53r"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wgn03"]
+states/RESET/node = SubResource("AnimationNodeAnimation_lmqpx")
+states/RESET/position = Vector2(123.333336, 100)
+states/Start/position = Vector2(1.3333282, 100.44444)
+states/attack_light/node = SubResource("AnimationNodeAnimation_nvc1o")
+states/attack_light/position = Vector2(439.33334, 99.333336)
+states/block_enter/node = SubResource("AnimationNodeAnimation_eqfsk")
+states/block_enter/position = Vector2(439.6667, 183)
+states/block_exit/node = SubResource("AnimationNodeAnimation_wgn03")
+states/block_exit/position = Vector2(287.6667, 272.55554)
+states/blocking/node = SubResource("AnimationNodeAnimation_k1vjg")
+states/blocking/position = Vector2(438.55557, 272.3333)
+transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransition_nvc1o"), "RESET", "attack_light", SubResource("AnimationNodeStateMachineTransition_eqfsk"), "attack_light", "RESET", SubResource("AnimationNodeStateMachineTransition_wgn03"), "RESET", "block_enter", SubResource("AnimationNodeStateMachineTransition_250kt"), "block_enter", "blocking", SubResource("AnimationNodeStateMachineTransition_ohd7q"), "blocking", "block_exit", SubResource("AnimationNodeStateMachineTransition_gqpng"), "block_exit", "RESET", SubResource("AnimationNodeStateMachineTransition_tm53r")]
+graph_offset = Vector2(-211, 59)
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 3
 script = ExtResource("1_3d8xk")
 
-[node name="CollisionMesh" type="CollisionShape3D" parent="."]
+[node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_hcqin")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_hcqin")
+[node name="Model" type="Node3D" parent="."]
 
-[node name="Eyes" type="Node3D" parent="."]
+[node name="BodyMesh" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_hcqin")
+skeleton = NodePath("../..")
+
+[node name="Eyes" type="Node3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.549, -0.399)
 
-[node name="EyesMesh" type="MeshInstance3D" parent="Eyes"]
+[node name="EyesMesh" type="MeshInstance3D" parent="Model/Eyes"]
 mesh = SubResource("BoxMesh_3d8xk")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
 [node name="StateMachine" type="Node3D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_0kck2")
-initial_state = NodePath("exploration")
+initial_state = NodePath("walking")
 
-[node name="exploration" type="Node" parent="StateMachine"]
+[node name="walking" type="Node" parent="StateMachine"]
 script = ExtResource("3_jeygn")
+
+[node name="trans_running" type="Node" parent="StateMachine"]
+script = ExtResource("5_d3mra")
 
 [node name="combat" type="Node3D" parent="StateMachine"]
 script = ExtResource("4_0kck2")
@@ -170,32 +234,40 @@ collision_mask = 2
 shape = SubResource("CylinderShape3D_3d8xk")
 debug_color = Color(0.694854, 0.494987, 0.0234025, 0.42)
 
-[node name="dodge" type="Node" parent="StateMachine"]
-script = ExtResource("6_6wift")
-dodge_curve = SubResource("Curve_6wift")
-
-[node name="light_attack" type="Node" parent="StateMachine"]
+[node name="trans_block" type="Node" parent="StateMachine"]
 script = ExtResource("7_0qcyq")
 
-[node name="block" type="Node" parent="StateMachine"]
-script = ExtResource("8_0qcyq")
+[node name="trans_dodge" type="Node" parent="StateMachine"]
+script = ExtResource("8_d3mra")
 
-[node name="Equipment" type="Node3D" parent="." node_paths=PackedStringArray("animator", "hand_L", "hand_R")]
-script = ExtResource("7_1t8we")
-animator = NodePath("CombatAnimator")
-parryTiming = 150
-equipped_item_R = ExtResource("8_tofid")
-hand_L = NodePath("HandL")
-hand_R = NodePath("HandR")
+[node name="Rig" type="Node3D" parent="."]
 
-[node name="HandR" type="Node3D" parent="Equipment"]
+[node name="HandR" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385793, -0.11935, -0.757124)
 
-[node name="HandL" type="Node3D" parent="Equipment"]
+[node name="Sword" parent="Rig/HandR" instance=ExtResource("9_lmqpx")]
+
+[node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
 
-[node name="CombatAnimator" type="AnimationPlayer" parent="Equipment"]
+[node name="CombatAnimator" type="AnimationPlayer" parent="Rig"]
 libraries = {
 &"": SubResource("AnimationLibrary_0qcyq"),
 &"combat": SubResource("AnimationLibrary_t2i2o")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="Rig"]
+tree_root = SubResource("AnimationNodeStateMachine_wgn03")
+anim_player = NodePath("../CombatAnimator")
+
+[node name="Equipment" type="Node" parent="." node_paths=PackedStringArray("SlotPivots")]
+script = ExtResource("9_0qcyq")
+EquipmentSlots = Array[ExtResource("10_t2i2o")]([ExtResource("8_tofid")])
+SlotPivots = [NodePath("../Rig/HandR")]
+SlotNames = Array[String](["Main Weapon"])
+SlotConstraints = Array[int]([0])
+
+[node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("combat_animator")]
+script = ExtResource("10_d3mra")
+combat_animator = NodePath("../Rig/CombatAnimator")
+parry_window = 150

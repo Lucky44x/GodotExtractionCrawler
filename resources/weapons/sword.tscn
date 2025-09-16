@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbdje1rwc1pwn"]
+[gd_scene load_steps=4 format=3 uid="uid://bbdje1rwc1pwn"]
 
 [ext_resource type="Script" uid="uid://djoryqso5o1ye" path="res://scripts/item/Weapon.gd" id="1_0qsxf"]
+[ext_resource type="Script" uid="uid://b5hro51rmny1b" path="res://scripts/item/WeaponEffect.gd" id="2_0qsxf"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ft5er"]
 height = 1.57019
 radius = 0.350586
 
-[node name="Sword" type="Node3D" node_paths=PackedStringArray("hitscan_area")]
+[node name="Sword" type="Node3D" node_paths=PackedStringArray("hitscan_area", "effects")]
 script = ExtResource("1_0qsxf")
 hitscan_area = NodePath("HitScanArea")
+effects = NodePath("StatEffects")
 
 [node name="Handle" type="CSGBox3D" parent="."]
 size = Vector3(0.1, 0.25, 0.1)
@@ -29,3 +31,9 @@ collision_mask = 2
 [node name="CollisionShape" type="CollisionShape3D" parent="HitScanArea"]
 shape = SubResource("CylinderShape3D_ft5er")
 debug_color = Color(0.981387, 0, 0.371502, 0.42)
+
+[node name="StatEffects" type="Node" parent="."]
+
+[node name="Damage" type="Node" parent="StatEffects"]
+script = ExtResource("2_0qsxf")
+stat_value = -2.0

@@ -1,13 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://cbgkvj2scfsjq"]
+[gd_scene load_steps=15 format=3 uid="uid://cbgkvj2scfsjq"]
 
-[ext_resource type="Script" uid="uid://dqdo5j2fo6lj2" path="res://scripts/enemy/DummyEnemy.gd" id="1_12iw2"]
+[ext_resource type="Script" uid="uid://dqdo5j2fo6lj2" path="res://scripts/entities/enemy/DummyEnemy.gd" id="1_12iw2"]
 [ext_resource type="Texture2D" uid="uid://v6si7b0dpn03" path="res://assets/debug/textures/Red/texture_09.png" id="1_mhm8o"]
 [ext_resource type="Script" uid="uid://djoryqso5o1ye" path="res://scripts/item/Weapon.gd" id="3_1042f"]
-[ext_resource type="Script" uid="uid://3jpbtgk2ox3v" path="res://scripts/state-machine/StateMachine.gd" id="4_ksgf3"]
-[ext_resource type="Script" uid="uid://brfn3nt2pgj65" path="res://scripts/enemy/states/EnemyIdle.gd" id="5_1042f"]
-[ext_resource type="Script" uid="uid://b2g0n7w6io06m" path="res://scripts/enemy/states/EnemyFollow.gd" id="6_kvicj"]
-[ext_resource type="Script" uid="uid://b4b0k7bemoh1d" path="res://scripts/enemy/states/EnemyAttack.gd" id="6_qfdra"]
-[ext_resource type="Script" uid="uid://cb1gu7uo0vvpx" path="res://scripts/enemy/states/EnemyStunned.gd" id="8_kvicj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mt00v"]
 
@@ -48,40 +43,6 @@ _data = {
 &"RESET": SubResource("Animation_1042f")
 }
 
-[sub_resource type="Animation" id="Animation_kvicj"]
-length = 2.0
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.493037, 0, 0.666667, 1, -0.109558, 0.13395, 0.323176, 0.766667, 1, -0.298658, 0.13395, 0.538465, 0.966667, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.85598, -0.0536211, 0.120259, -0.49996, 0.566667, 1, -0.738506, -0.10299, 0.341969, 0.57189, 0.666667, 1, 0.162049, -0.307995, 0.0619721, 0.935435, 0.766667, 1, 0.649555, -0.223229, 0.221066, 0.692371, 0.866667, 1, 0.811269, -0.155861, 0.27278, 0.493094, 0.966667, 1, 0, 0, 0, 1)
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("StateMachine/attack")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.666667, 0.833333),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"startHitscan"
-}, {
-"args": [],
-"method": &"endHitscan"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_832yo"]
 length = 4.0
 tracks/0/type = "position_3d"
@@ -106,9 +67,26 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.5, 1, 0, 0.635625, 0.133986, 1, 1, 0, 0.760369, 0.0413323, 1.5, 1, 0, 0.679577, -0.0207774, 2, 1, 0, 0.840626, 0.0984127, 2.5, 1, 0, 0.700464, -0.00610054, 3, 1, 0, 1, 0)
 
+[sub_resource type="Animation" id="Animation_kvicj"]
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.493037, 0, 0.666667, 1, -0.109558, 0.13395, 0.323176, 0.766667, 1, -0.298658, 0.13395, 0.538465, 0.966667, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.85598, -0.0536211, 0.120259, -0.49996, 0.566667, 1, -0.738506, -0.10299, 0.341969, 0.57189, 0.666667, 1, 0.162049, -0.307995, 0.0619721, 0.935435, 0.766667, 1, 0.649555, -0.223229, 0.221066, 0.692371, 0.866667, 1, 0.811269, -0.155861, 0.27278, 0.493094, 0.966667, 1, 0, 0, 0, 1)
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_832yo"]
 _data = {
-&"attack": SubResource("Animation_kvicj"),
+&"l_attack_oh_sword": SubResource("Animation_kvicj"),
 &"stunned": SubResource("Animation_832yo")
 }
 
@@ -144,7 +122,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.996013, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
 
 [node name="WeaponHand" type="Node3D" parent="Pivot/WeaponPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Sword" type="Node3D" parent="Pivot/WeaponPivot/WeaponHand" node_paths=PackedStringArray("hitscan_area")]
 script = ExtResource("3_1042f")
@@ -174,7 +151,7 @@ debug_color = Color(0.981387, 0, 0.371502, 0.42)
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_qfdra"),
-&"Enemy": SubResource("AnimationLibrary_832yo")
+&"combat": SubResource("AnimationLibrary_832yo")
 }
 
 [node name="AggroArea" type="Area3D" parent="Pivot"]
@@ -185,26 +162,3 @@ collision_layer = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.55992)
 shape = SubResource("BoxShape3D_kvicj")
 debug_color = Color(0.980464, 0, 0.379447, 0.42)
-
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("4_ksgf3")
-initial_state = NodePath("idle")
-
-[node name="idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("detectionArea")]
-script = ExtResource("5_1042f")
-detectionArea = NodePath("../../DetectionArea")
-
-[node name="follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("detectionArea", "attackArea", "pivot")]
-script = ExtResource("6_kvicj")
-detectionArea = NodePath("../../DetectionArea")
-attackArea = NodePath("../../Pivot/AggroArea")
-pivot = NodePath("../../Pivot")
-
-[node name="attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("anim", "hitscanArea")]
-script = ExtResource("6_qfdra")
-anim = NodePath("../../Pivot/AnimationPlayer")
-hitscanArea = NodePath("../../Pivot/WeaponPivot/WeaponHand/Sword/HitScanArea")
-
-[node name="stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("anim")]
-script = ExtResource("8_kvicj")
-anim = NodePath("../../Pivot/AnimationPlayer")
