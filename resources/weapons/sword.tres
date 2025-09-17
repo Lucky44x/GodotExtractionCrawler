@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ugxrfankbuyl" path="res://scripts/resources/WeaponData.gd" id="1_0w5r0"]
 [ext_resource type="PackedScene" uid="uid://bbdje1rwc1pwn" path="res://resources/weapons/sword.tscn" id="1_t8t18"]
-[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/AttackProfile.gd" id="2_d4cb0"]
+[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_d4cb0"]
 
 [sub_resource type="Resource" id="Resource_ht66n"]
 script = ExtResource("2_d4cb0")

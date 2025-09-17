@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=25 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -13,6 +13,9 @@
 [ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="10_d3mra"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/attacks/profiles/OneHandedSlash.tres" id="14_nvc1o"]
+[ext_resource type="AnimationLibrary" uid="uid://b5kwie374few5" path="res://animations/combat.res" id="16_wgn03"]
+[ext_resource type="Script" uid="uid://bg3dy1jtahxwh" path="res://scripts/debug/DebugAnimationCallback.gd" id="17_k1vjg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
 
@@ -33,163 +36,20 @@ size = Vector3(0.75, 0.25, 0.25)
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3d8xk"]
 radius = 20.0
 
-[sub_resource type="Animation" id="Animation_y20tv"]
+[sub_resource type="Animation" id="Animation_wgn03"]
 length = 0.001
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
+tracks/0/path = NodePath("../Rig/HandR")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.385793, -0.11935, -0.757124)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_0qcyq"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k1vjg"]
 _data = {
-&"RESET": SubResource("Animation_y20tv")
+&"RESET": SubResource("Animation_wgn03")
 }
-
-[sub_resource type="Animation" id="Animation_t2i2o"]
-length = 0.25
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5, 0.233333, 1, 0.333987, 0, -0.802679)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HandR")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.307656, 0.951498)
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../CombatController")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.23333333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"internal_begin_blocking"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_lmqpx"]
-loop_mode = 1
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.333987, 0, -0.802679, 0.5, 1, 0.385793, -0.11935, -0.757124, 1, 1, 0.333987, 0, -0.802679)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HandR")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0.307656, 0.951498)
-
-[sub_resource type="Animation" id="Animation_d3mra"]
-length = 0.834
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HandR")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5, 0.2, 1, 0.75, 0.642051, -0.240814, 0.333333, 1, 0.89953, 0.366171, -0.514225, 0.466667, 1, 0.514164, 0.0760798, -0.953756, 0.6, 1, 0.00136016, 0.0803888, -0.758695, 0.833333, 1, 0.75, 0, -0.5)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HandR")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0.916912, -0.117709, 0.0333988, 0.37987, 0.333333, 1, -0.305681, 0.431395, 0.686133, -0.499679, 0.466667, 1, -0.315402, 0.092284, -0.68172, 0.653654, 0.6, 1, 0.673537, -0.482266, 0.332518, -0.450776, 0.833333, 1, 0, 0, 0, 1)
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../CombatController")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.33333334, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"internal_begin_hitscan"
-}, {
-"args": [],
-"method": &"internal_end_hitscan"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_t2i2o"]
-_data = {
-&"block_enter_weapon": SubResource("Animation_t2i2o"),
-&"block_weapon": SubResource("Animation_lmqpx"),
-&"l_attack_oh_sword": SubResource("Animation_d3mra")
-}
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lmqpx"]
-animation = &"RESET"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nvc1o"]
-animation = &"combat/l_attack_oh_sword"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eqfsk"]
-animation = &"combat/block_enter_weapon"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wgn03"]
-animation = &"combat/block_enter_weapon"
-play_mode = 1
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k1vjg"]
-animation = &"combat/block_weapon"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nvc1o"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eqfsk"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wgn03"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_250kt"]
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ohd7q"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gqpng"]
-break_loop_at_end = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tm53r"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wgn03"]
-states/RESET/node = SubResource("AnimationNodeAnimation_lmqpx")
-states/RESET/position = Vector2(123.333336, 100)
-states/Start/position = Vector2(1.3333282, 100.44444)
-states/attack_light/node = SubResource("AnimationNodeAnimation_nvc1o")
-states/attack_light/position = Vector2(439.33334, 99.333336)
-states/block_enter/node = SubResource("AnimationNodeAnimation_eqfsk")
-states/block_enter/position = Vector2(439.6667, 183)
-states/block_exit/node = SubResource("AnimationNodeAnimation_wgn03")
-states/block_exit/position = Vector2(287.6667, 272.55554)
-states/blocking/node = SubResource("AnimationNodeAnimation_k1vjg")
-states/blocking/position = Vector2(438.55557, 272.3333)
-transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransition_nvc1o"), "RESET", "attack_light", SubResource("AnimationNodeStateMachineTransition_eqfsk"), "attack_light", "RESET", SubResource("AnimationNodeStateMachineTransition_wgn03"), "RESET", "block_enter", SubResource("AnimationNodeStateMachineTransition_250kt"), "block_enter", "blocking", SubResource("AnimationNodeStateMachineTransition_ohd7q"), "blocking", "block_exit", SubResource("AnimationNodeStateMachineTransition_gqpng"), "block_exit", "RESET", SubResource("AnimationNodeStateMachineTransition_tm53r")]
-graph_offset = Vector2(-390, 48)
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 3
@@ -244,20 +104,13 @@ script = ExtResource("9_lmqpx")
 [node name="Rig" type="Node3D" parent="."]
 
 [node name="HandR" type="Node3D" parent="Rig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385793, -0.11935, -0.757124)
+transform = Transform3D(0.9999999, 0, 0, 0, 1.0000001, 0, 0, 0, 0.9999997, 0, 0, 0)
 
 [node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
 
-[node name="CombatAnimator" type="AnimationPlayer" parent="Rig"]
-libraries = {
-&"": SubResource("AnimationLibrary_0qcyq"),
-&"combat": SubResource("AnimationLibrary_t2i2o")
-}
-
-[node name="AnimationTree" type="AnimationTree" parent="Rig"]
-tree_root = SubResource("AnimationNodeStateMachine_wgn03")
-anim_player = NodePath("../CombatAnimator")
+[node name="HitscanRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="Equipment" type="Node" parent="." node_paths=PackedStringArray("SlotPivots")]
 script = ExtResource("9_0qcyq")
@@ -266,7 +119,29 @@ SlotPivots = [NodePath("../Rig/HandR")]
 SlotNames = Array[String](["Main Weapon"])
 SlotConstraints = Array[int]([0])
 
-[node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("combat_animator")]
+[node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("hitscan_root", "animator")]
 script = ExtResource("10_d3mra")
-combat_animator = NodePath("../Rig/AnimationTree")
-parry_window = 150
+hitscan_root = NodePath("../HitscanRoot")
+animator = NodePath("CombatPlayer")
+active_scan_zones = Array[bool]([false])
+profile = ExtResource("14_nvc1o")
+
+[node name="CombatPlayer" type="AnimationPlayer" parent="CombatController"]
+libraries = {
+&"": SubResource("AnimationLibrary_k1vjg"),
+&"combat": ExtResource("16_wgn03")
+}
+
+[node name="DebugAnimationCallback" type="Node" parent="CombatController" node_paths=PackedStringArray("Animator", "track_targets")]
+script = ExtResource("17_k1vjg")
+Animator = NodePath("../CombatPlayer")
+track_targets = [NodePath("..")]
+callArray = [[{
+"args": [0],
+"method": &"internal_begin_hitscan"
+}, {
+"args": [0],
+"method": &"internal_end_hitscan"
+}]]
+keyTimes = [[0.3, 0.8]]
+currentKeyFrames = Array[int]([2])

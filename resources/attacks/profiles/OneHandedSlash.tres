@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=5 format=3 uid="uid://cvt27u74alxa2"]
+
+[ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/attack_profile/HitscanCollider.gd" id="1_r38gm"]
+[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_8omko"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r38gm"]
+size = Vector3(2, 2, 1)
+
+[sub_resource type="Resource" id="Resource_r38gm"]
+script = ExtResource("1_r38gm")
+Position = Vector3(0, 0, -0.25)
+Shape = SubResource("BoxShape3D_r38gm")
+metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
+
+[resource]
+script = ExtResource("2_8omko")
+animation = "combat/oh_sword_swing"
+colliders = Array[ExtResource("1_r38gm")]([SubResource("Resource_r38gm")])
+metadata/_custom_type_script = "uid://bekuvyga2nibg"

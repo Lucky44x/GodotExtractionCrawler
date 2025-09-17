@@ -54,7 +54,7 @@ projection = 1
 size = 25.0
 
 [node name="PlayerController" parent="." node_paths=PackedStringArray("camera_pivot") instance=ExtResource("2_rwgxs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08769, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 0)
 camera_pivot = NodePath("../CameraPivot")
 
 [node name="DummyEnemy" parent="." instance=ExtResource("3_4wyf3")]

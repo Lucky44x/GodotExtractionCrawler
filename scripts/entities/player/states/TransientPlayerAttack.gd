@@ -16,7 +16,6 @@ func Enter():
 	# Slow player down during bocking, but remember previous speed to reset on exit
 	previous_speed = controller.speed
 	controller.speed = player_attacking_speed
-	combat_controller.StartLightAttack(equipment_controller.active_weapon)
 
 func Exit():
 	controller.speed = previous_speed
