@@ -1,5 +1,8 @@
 extends State
 
+@export var stat_controller: StatController
+@export var dodge_stat_mod: StatModifier
+
 @export var dodge_duration: float = 0.14 			# total seconds of the dodge
 @export var peak_speed: float = 18.0				# units/sec
 @export var control_blend_time: float = 0.06		# final window to lerp back to player control
@@ -18,6 +21,8 @@ func _ready():
 
 func Enter():
 	var inputDir = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+	
+	stat_controller.add_stat_modifier(dodge_stat_mod)
 	
 	direction = Vector3.ZERO
 	direction += controller.camera_pivot.global_basis.x * inputDir.x
