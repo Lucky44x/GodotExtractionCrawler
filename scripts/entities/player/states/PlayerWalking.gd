@@ -1,15 +1,13 @@
 extends State
 
-@export var player_walk_speed = 14
-
-var controller: PlayerController
+@export var stat_controller: StatController
+@export var walking_stat: StatModifier
+@export var stamina_stat: StatModifier
 
 func _ready():
-	controller = $"../.."
-
-func Enter():
-	# Reset Players speed to original value
-	controller.speed = player_walk_speed
+	await get_tree().process_frame
+	stat_controller.add_stat_modifier(walking_stat)
+	stat_controller.add_stat_modifier(stamina_stat)
 
 func Update(_delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "combat")

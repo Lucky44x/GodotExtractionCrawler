@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=3 format=3 uid="uid://3jj2ukdrn48i"]
+
+[ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/attack_profile/HitscanCollider.gd" id="1_sh0yh"]
+[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_p3s2l"]
+
+[resource]
+script = ExtResource("2_p3s2l")
+metadata/_custom_type_script = "uid://bekuvyga2nibg"

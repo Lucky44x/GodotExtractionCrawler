@@ -1,20 +1,19 @@
 extends State
 
-@export var player_run_speed = 20
+@export var stat_controller: StatController
+@export var speed_stat: StatModifier
+@export var stamina_mod: StatModifier
 
-var controller: PlayerController
-var previousSpeed: float
-
-func _ready():
-	controller = $"../.."
+var trans_mod: StatModifierNode
+var trans_stamina_mod: StatModifierNode
 
 func Enter():
-	# Set player speed to running-speed and cache previous speed for deinit
-	previousSpeed = controller.speed
-	controller.speed = player_run_speed
+	trans_mod = stat_controller.add_stat_modifier(speed_stat)
+	trans_stamina_mod = stat_controller.add_stat_modifier(stamina_mod)
 
 func Exit():
-	controller.speed = previousSpeed
+	trans_mod.die()
+	trans_stamina_mod.die()
 
 func Update(_delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "combat")

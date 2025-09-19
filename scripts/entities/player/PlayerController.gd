@@ -1,10 +1,11 @@
 extends CharacterBody3D
 class_name PlayerController
 
+@export var stat_controller: StatController
+
 @export_group("Movement")
 @export var locked : bool
 @export var camera_pivot : Node3D
-@export_range(0.0, 25.0) var speed = 14
 
 @export_group("Combat")
 @export var current_target : Node3D
@@ -28,7 +29,7 @@ func handle_movement():
 	direction += camera_pivot.global_basis.x * (raw_input.x / 1.5)
 	direction += camera_pivot.global_basis.z * raw_input.y
 	
-	target_velocity = direction * speed
+	target_velocity = direction * stat_controller.GetStat(GameInfo.StatType.Speed)
 	
 	velocity = lerp(velocity, target_velocity, 0.5)
 	move_and_slide()

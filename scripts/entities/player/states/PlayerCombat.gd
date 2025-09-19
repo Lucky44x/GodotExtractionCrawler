@@ -1,6 +1,9 @@
 extends State
 
-@export var player_combat_speed = 7
+@export var stat_controller: StatController
+@export var speed_stat: StatModifier
+
+var trans_mod: StatModifierNode
 
 var controller: PlayerController
 var target: Node3D
@@ -9,8 +12,7 @@ func _ready():
 	controller = $"../.."
 
 func Enter():
-	# Slow player down during combat
-	controller.speed = player_combat_speed
+	trans_mod = stat_controller.add_stat_modifier(speed_stat)
 	# Lock onto the closest Enemy
 	target = get_closest_enemy()
 	if not target: 
@@ -20,6 +22,7 @@ func Enter():
 	controller.current_target = target
 
 func Exit():
+	trans_mod.die()
 	controller.current_target = null
 
 func Update(_delta: float):

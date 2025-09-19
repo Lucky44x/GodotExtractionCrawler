@@ -1,23 +1,21 @@
 extends State
 
-@export var player_blocking_speed = 1.5
-
-var controller: PlayerController
 var combat_controller: CombatController
-var previous_speed: float
+
+@export var stat_controller: StatController
+@export var speed_stat: StatModifier
+
+var trans_mod: StatModifierNode
 
 func _ready():
-	controller = $"../.."
 	combat_controller = $"../../CombatController"
 
 func Enter():
-	# Slow player down during bocking, but remember previous speed to reset on exit
-	previous_speed = controller.speed
-	controller.speed = player_blocking_speed
+	trans_mod = stat_controller.add_stat_modifier(speed_stat)
 	combat_controller.StartBlocking()
-
+	
 func Exit():
-	controller.speed = previous_speed
+	trans_mod.die()
 	combat_controller.EndBlocking()
 
 func Update(_delta: float):

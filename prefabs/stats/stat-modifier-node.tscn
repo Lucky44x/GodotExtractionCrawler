@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsuwsmovsmaa6"]
+
+[ext_resource type="Script" uid="uid://cxjs2a1kodxm0" path="res://scripts/entities/StatModifierNode.gd" id="1_tkulr"]
+
+[node name="ModifierNode" type="Node"]
+script = ExtResource("1_tkulr")
+metadata/_custom_type_script = "uid://cxjs2a1kodxm0"

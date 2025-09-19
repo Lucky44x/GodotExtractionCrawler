@@ -7,6 +7,8 @@ class_name ItemData
 @export var rarity: GameInfo.ItemRarity
 @export var prefab: PackedScene
 
+@export var passive_modifiers: Array[StatModifier]
+
 func _init(p_name = "NAN", p_desc = "NAN", p_rarity = GameInfo.ItemRarity.Abundant, p_prefab = null):
 	name = p_name
 	descriptor = p_desc

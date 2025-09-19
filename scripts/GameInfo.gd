@@ -18,8 +18,42 @@ enum ItemType {
 	Legs,
 }
 
+enum AttackType {
+	Light,
+	Heavy,
+	Charged
+}
+
+enum ModifierType {
+	Oneshot,
+	Timed,
+	Recurring
+}
+
+enum ModifierOperation {
+	Add,
+	Multiply
+}
+
+enum ModifierStackingRule {
+	Unique,
+	Additive,
+	Highest
+}
+
+enum ModifierFalloffTarget {
+	None,
+	Stat,
+	Duration
+}
+
 # TODO: Add more effects
 enum StatType {
 	Health,
-	Mana
+	MaxHealth,
+	Stamina,
+	MaxStamina,
+	Speed,
+	
+	LogicHook,
 }

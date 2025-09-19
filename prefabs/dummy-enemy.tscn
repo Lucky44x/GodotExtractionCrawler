@@ -1,8 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbgkvj2scfsjq"]
+[gd_scene load_steps=11 format=3 uid="uid://cbgkvj2scfsjq"]
 
-[ext_resource type="Script" uid="uid://dqdo5j2fo6lj2" path="res://scripts/entities/enemy/DummyEnemy.gd" id="1_12iw2"]
 [ext_resource type="Texture2D" uid="uid://v6si7b0dpn03" path="res://assets/debug/textures/Red/texture_09.png" id="1_mhm8o"]
-[ext_resource type="Script" uid="uid://djoryqso5o1ye" path="res://scripts/item/Weapon.gd" id="3_1042f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mt00v"]
 
@@ -16,10 +14,6 @@ material = SubResource("StandardMaterial3D_488gm")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qfdra"]
 radius = 5.0
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ft5er"]
-height = 1.57019
-radius = 0.350586
 
 [sub_resource type="Animation" id="Animation_1042f"]
 length = 0.001
@@ -42,6 +36,23 @@ tracks/1/keys = PackedFloat32Array(0, 1, 0, 1, 0)
 _data = {
 &"RESET": SubResource("Animation_1042f")
 }
+
+[sub_resource type="Animation" id="Animation_kvicj"]
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.493037, 0, 0.666667, 1, -0.109558, 0.13395, 0.323176, 0.766667, 1, -0.298658, 0.13395, 0.538465, 0.966667, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.85598, -0.0536211, 0.120259, -0.49996, 0.566667, 1, -0.738506, -0.10299, 0.341969, 0.57189, 0.666667, 1, 0.162049, -0.307995, 0.0619721, 0.935435, 0.766667, 1, 0.649555, -0.223229, 0.221066, 0.692371, 0.866667, 1, 0.811269, -0.155861, 0.27278, 0.493094, 0.966667, 1, 0, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_832yo"]
 length = 4.0
@@ -67,34 +78,13 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.5, 1, 0, 0.635625, 0.133986, 1, 1, 0, 0.760369, 0.0413323, 1.5, 1, 0, 0.679577, -0.0207774, 2, 1, 0, 0.840626, 0.0984127, 2.5, 1, 0, 0.700464, -0.00610054, 3, 1, 0, 1, 0)
 
-[sub_resource type="Animation" id="Animation_kvicj"]
-length = 2.0
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.493037, 0, 0.666667, 1, -0.109558, 0.13395, 0.323176, 0.766667, 1, -0.298658, 0.13395, 0.538465, 0.966667, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.85598, -0.0536211, 0.120259, -0.49996, 0.566667, 1, -0.738506, -0.10299, 0.341969, 0.57189, 0.666667, 1, 0.162049, -0.307995, 0.0619721, 0.935435, 0.766667, 1, 0.649555, -0.223229, 0.221066, 0.692371, 0.866667, 1, 0.811269, -0.155861, 0.27278, 0.493094, 0.966667, 1, 0, 0, 0, 1)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_832yo"]
 _data = {
 &"l_attack_oh_sword": SubResource("Animation_kvicj"),
 &"stunned": SubResource("Animation_832yo")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_kvicj"]
-size = Vector3(1, 2, 2)
-
 [node name="DummyEnemy" type="Node3D"]
-script = ExtResource("1_12iw2")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -123,42 +113,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
 
 [node name="WeaponHand" type="Node3D" parent="Pivot/WeaponPivot"]
 
-[node name="Sword" type="Node3D" parent="Pivot/WeaponPivot/WeaponHand" node_paths=PackedStringArray("hitscan_area")]
-script = ExtResource("3_1042f")
-hitscan_area = NodePath("HitScanArea")
-
-[node name="Handle" type="CSGBox3D" parent="Pivot/WeaponPivot/WeaponHand/Sword"]
-size = Vector3(0.1, 0.25, 0.1)
-
-[node name="Guard" type="CSGBox3D" parent="Pivot/WeaponPivot/WeaponHand/Sword"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150143, 0)
-size = Vector3(0.1, 0.05, 0.25)
-
-[node name="Blade" type="CSGBox3D" parent="Pivot/WeaponPivot/WeaponHand/Sword"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79032, 0)
-size = Vector3(0.0427246, 1.35864, 0.113281)
-
-[node name="HitScanArea" type="Area3D" parent="Pivot/WeaponPivot/WeaponHand/Sword"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.688557, 0)
-collision_layer = 4
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Pivot/WeaponPivot/WeaponHand/Sword/HitScanArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.285095, 0)
-shape = SubResource("CylinderShape3D_ft5er")
-debug_color = Color(0.981387, 0, 0.371502, 0.42)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot"]
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_qfdra"),
 &"combat": SubResource("AnimationLibrary_832yo")
 }
-
-[node name="AggroArea" type="Area3D" parent="Pivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.996013, 0)
-collision_layer = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/AggroArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.55992)
-shape = SubResource("BoxShape3D_kvicj")
-debug_color = Color(0.980464, 0, 0.379447, 0.42)
