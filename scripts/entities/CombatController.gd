@@ -57,7 +57,7 @@ func _process(_delta: float):
 			
 			var color = Color.RED
 			if active_scan_zones[profile.colliders.find(coll)]: color = Color.GREEN
-			var pos = hitscan_root.global_position + coll.Position
+			var pos = hitscan_root.global_position + (hitscan_root.global_basis.x.normalized() * coll.Position.x) + (hitscan_root.global_basis.y.normalized() * coll.Position.y) + (hitscan_root.global_basis.z.normalized() * coll.Position.z)
 			var rot = Quaternion.from_euler(hitscan_root.global_rotation + Vector3(deg_to_rad(coll.Rotation.x), deg_to_rad(coll.Rotation.y), deg_to_rad(coll.Rotation.z)))
 			var up_vec = Basis.from_euler(rot.get_euler()).y
 			
@@ -84,7 +84,14 @@ func debug_perform_attack_profile():
 		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "Animation " + profile.animation + " not found", 64, Color.RED, 5)
 		return
 	
-	animator.play(profile.animation)
+	if profile.attack_type == GameInfo.AttackType.Light:
+		animator.play(profile.animation)
+	else: debug_perform_heavy_attack(profile)
+
+func debug_perform_heavy_attack(attackProfile: AttackProfile):
+	if attackProfile.attack_type == GameInfo.AttackType.Light: return
+	animator.play(profile.charging_entry_animation)
+	animator.queue(profile.animation)
 
 func internal_set_profile(prof: AttackProfile):
 	active_scan_zones.clear()

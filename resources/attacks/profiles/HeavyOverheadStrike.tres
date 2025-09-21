@@ -1,8 +1,39 @@
-[gd_resource type="Resource" script_class="AttackProfile" load_steps=3 format=3 uid="uid://3jj2ukdrn48i"]
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=9 format=3 uid="uid://3jj2ukdrn48i"]
 
+[ext_resource type="Script" uid="uid://b7ffxt55xp4b" path="res://scripts/resources/attack_profile/ChargeTier.gd" id="1_p3s2l"]
 [ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/attack_profile/HitscanCollider.gd" id="1_sh0yh"]
 [ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_p3s2l"]
 
+[sub_resource type="Resource" id="Resource_p3s2l"]
+script = ExtResource("1_p3s2l")
+Required_Time_ms = 50
+metadata/_custom_type_script = "uid://b7ffxt55xp4b"
+
+[sub_resource type="Resource" id="Resource_vegql"]
+script = ExtResource("1_p3s2l")
+Required_Time_ms = 500
+metadata/_custom_type_script = "uid://b7ffxt55xp4b"
+
+[sub_resource type="Resource" id="Resource_lp2ck"]
+script = ExtResource("1_p3s2l")
+Required_Time_ms = 1000
+metadata/_custom_type_script = "uid://b7ffxt55xp4b"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p3s2l"]
+
+[sub_resource type="Resource" id="Resource_i45m0"]
+script = ExtResource("1_sh0yh")
+Position = Vector3(0, 0.25, -0.25)
+Rotation = Vector3(15, 0, 0)
+Shape = SubResource("CapsuleShape3D_p3s2l")
+metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
+
 [resource]
 script = ExtResource("2_p3s2l")
+animation = "combat/over_head_strike"
+colliders = Array[ExtResource("1_sh0yh")]([SubResource("Resource_i45m0")])
+attack_type = 2
+charging_entry_animation = "combat/over_head_strike_entry"
+charging_animation = "combat/over_head_charge"
+charging_tiers = Array[ExtResource("1_p3s2l")]([SubResource("Resource_p3s2l"), SubResource("Resource_vegql"), SubResource("Resource_lp2ck")])
 metadata/_custom_type_script = "uid://bekuvyga2nibg"

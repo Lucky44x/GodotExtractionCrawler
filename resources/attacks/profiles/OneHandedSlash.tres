@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_8omko"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r38gm"]
-size = Vector3(2, 2, 1)
+size = Vector3(2, 2, 2)
 
 [sub_resource type="Resource" id="Resource_r38gm"]
 script = ExtResource("1_r38gm")
-Position = Vector3(0, 0, -0.25)
+Position = Vector3(0, 0, -0.75)
 Shape = SubResource("BoxShape3D_r38gm")
 metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
 
