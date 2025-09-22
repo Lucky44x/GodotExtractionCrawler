@@ -1,23 +1,47 @@
-[gd_resource type="Resource" script_class="AttackProfile" load_steps=11 format=3 uid="uid://3jj2ukdrn48i"]
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=14 format=3 uid="uid://3jj2ukdrn48i"]
 
 [ext_resource type="Script" uid="uid://b7ffxt55xp4b" path="res://scripts/resources/attack_profile/ChargeTier.gd" id="1_p3s2l"]
 [ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/attack_profile/HitscanCollider.gd" id="1_sh0yh"]
 [ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/attack_profile/StatModifier.gd" id="2_i45m0"]
 [ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="2_p3s2l"]
 
+[sub_resource type="Resource" id="Resource_qleqi"]
+script = ExtResource("2_i45m0")
+modifier_operation = 1
+modifier_value = 1.5
+modifier_stacking_rule = 2
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
+
 [sub_resource type="Resource" id="Resource_p3s2l"]
 script = ExtResource("1_p3s2l")
 Required_Time_ms = 50
+Charge_Modifiers = Array[ExtResource("2_i45m0")]([SubResource("Resource_qleqi")])
 metadata/_custom_type_script = "uid://b7ffxt55xp4b"
+
+[sub_resource type="Resource" id="Resource_162ea"]
+script = ExtResource("2_i45m0")
+modifier_operation = 1
+modifier_value = 2.0
+modifier_stacking_rule = 2
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
 [sub_resource type="Resource" id="Resource_vegql"]
 script = ExtResource("1_p3s2l")
 Required_Time_ms = 500
+Charge_Modifiers = Array[ExtResource("2_i45m0")]([SubResource("Resource_162ea")])
 metadata/_custom_type_script = "uid://b7ffxt55xp4b"
+
+[sub_resource type="Resource" id="Resource_gnaiw"]
+script = ExtResource("2_i45m0")
+modifier_operation = 1
+modifier_value = 4.0
+modifier_stacking_rule = 2
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
 [sub_resource type="Resource" id="Resource_lp2ck"]
 script = ExtResource("1_p3s2l")
 Required_Time_ms = 1000
+Charge_Modifiers = Array[ExtResource("2_i45m0")]([SubResource("Resource_gnaiw")])
 metadata/_custom_type_script = "uid://b7ffxt55xp4b"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p3s2l"]

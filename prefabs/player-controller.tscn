@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=36 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="10_d3mra"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
-[ext_resource type="Resource" uid="uid://3jj2ukdrn48i" path="res://resources/attacks/profiles/HeavyOverheadStrike.tres" id="16_ohd7q"]
 [ext_resource type="AnimationLibrary" uid="uid://b5kwie374few5" path="res://animations/combat.res" id="16_wgn03"]
 [ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/stats/stat-controller.tscn" id="17_250kt"]
 [ext_resource type="Script" uid="uid://bg3dy1jtahxwh" path="res://scripts/debug/DebugAnimationCallback.gd" id="17_k1vjg"]
@@ -234,7 +233,7 @@ speed_stat = SubResource("Resource_801f5")
 [node name="Rig" type="Node3D" parent="."]
 
 [node name="HandR" type="Node3D" parent="Rig"]
-transform = Transform3D(0.99999964, 0, 0, 0, -0.56731164, -0.82350266, 0, 0.82350296, -0.56731147, 0.75, 0, -0.5)
+transform = Transform3D(0.99999964, 0, 0, 0, -0.4425077, 0.89676416, 0, -0.89676446, -0.44250757, 0.75, 0, -0.5)
 
 [node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
@@ -254,13 +253,13 @@ script = ExtResource("10_d3mra")
 hitscan_root = NodePath("../HitscanRoot")
 animator = NodePath("CombatPlayer")
 active_scan_zones = Array[bool]([false])
-profile = ExtResource("16_ohd7q")
 
 [node name="CombatPlayer" type="AnimationPlayer" parent="CombatController"]
 libraries = {
 &"": SubResource("AnimationLibrary_k1vjg"),
 &"combat": ExtResource("16_wgn03")
 }
+speed_scale = 0.074
 
 [node name="DebugAnimationCallback" type="Node" parent="CombatController" node_paths=PackedStringArray("Animator", "track_targets")]
 script = ExtResource("17_k1vjg")
@@ -270,11 +269,17 @@ callArray = [[{
 "args": [0],
 "method": &"internal_begin_hitscan"
 }, {
+"args": [],
+"method": &"internal_lock_interrupt"
+}, {
 "args": [0],
 "method": &"internal_end_hitscan"
+}, {
+"args": [],
+"method": &"internal_unlock_interrupt"
 }]]
-keyTimes = [[0.13333334, 0.4]]
-currentKeyFrames = Array[int]([2])
+keyTimes = [[0.13333334, 0.2, 0.4, 0.401887]]
+currentKeyFrames = Array[int]([4])
 
 [node name="StatController" parent="." instance=ExtResource("17_250kt")]
 TrackedStats = Array[float]([100.0, 100.0, 100.0, 100.0, 14.0, 0.0])
