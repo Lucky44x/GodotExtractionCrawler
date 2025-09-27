@@ -233,7 +233,7 @@ speed_stat = SubResource("Resource_801f5")
 [node name="Rig" type="Node3D" parent="."]
 
 [node name="HandR" type="Node3D" parent="Rig"]
-transform = Transform3D(0.99999964, 0, 0, 0, -0.4425077, 0.89676416, 0, -0.89676446, -0.44250757, 0.75, 0, -0.5)
+transform = Transform3D(0.99999964, 0, 0, 0, -0.44250768, 0.89676416, 0, -0.8967644, -0.44250757, 0.75, 0, -0.5)
 
 [node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
