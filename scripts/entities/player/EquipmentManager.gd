@@ -28,3 +28,6 @@ func equip_item(data: ItemData, slot: EquipmentSlot):
 		SlotPivots[slot].get_child(0).queue_free()		# Delete Model if previously present
 	var instance = data.prefab.instantiate()
 	SlotPivots[slot].add_child(instance)				# Instantiate and parent model to slot-pivot (hand)
+
+func get_main_weapon() -> WeaponData:
+	return EquipmentSlots[EquipmentSlot.MainWeapon]

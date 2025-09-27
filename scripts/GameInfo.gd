@@ -54,6 +54,6 @@ enum StatType {
 	Stamina,
 	MaxStamina,
 	Speed,
-	
-	LogicHook,
+	ComboScore,
+	ComboDecay
 }

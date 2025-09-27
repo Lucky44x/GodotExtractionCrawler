@@ -57,9 +57,9 @@ func _get_property_list():
 		ret.append({ "name": &"modifier_id", "class_name": &"", "type": 4, "hint": 0, "hint_string": "", "usage": 4102 })
 		ret.append({ "name": &"modifier_tier", "class_name": &"", "type": TYPE_INT, "hint": 0, "hint_string": "", "usage": 4102 })
 	
-	if target_stat == GameInfo.StatType.LogicHook:
-		ret.append({ "name": &"hook_function", "class_name": &"", "type": 4, "hint": 0, "hint_string": "", "usage": 4102 })
-		ret.append({ "name": &"hook_args", "class_name": &"", "type": 28, "hint": 0, "hint_string": "", "usage": 4102 })
+	# if target_stat == GameInfo.StatType.LogicHook:
+	#	ret.append({ "name": &"hook_function", "class_name": &"", "type": 4, "hint": 0, "hint_string": "", "usage": 4102 })
+	#	ret.append({ "name": &"hook_args", "class_name": &"", "type": 28, "hint": 0, "hint_string": "", "usage": 4102 })
 	
 	if modifier_type == GameInfo.ModifierType.Timed or modifier_type == GameInfo.ModifierType.Recurring:
 		ret.append({

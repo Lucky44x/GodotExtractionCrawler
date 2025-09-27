@@ -10,11 +10,17 @@ class_name PlayerController
 @export_group("Combat")
 @export var current_target : Node3D
 
+@export_category("Animation")
+@export var animation_tree: AnimationTree
+
 var target_velocity = Vector3.ZERO
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	handle_movement()
 	handle_rotation()
+
+func _process(_delta: float):
+	animation_tree["parameters/MovementBlend/blend_position"] = velocity.length() / 14
 
 func handle_movement():
 	if locked: return
@@ -23,6 +29,7 @@ func handle_movement():
 	#get_actual_input_vector("move_left", "move_right", "move_up", "move_down")
 	var raw_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if raw_input == Vector2.ZERO:
+		velocity = Vector3.ZERO
 		return
 
 	var direction = Vector3.ZERO

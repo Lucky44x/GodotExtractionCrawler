@@ -2,18 +2,21 @@
 extends Node
 class_name CombatController
 
+# Signals
+## Triggers when Attack has finished executing: Sig: OnAttackFinished(executedProfile: AttackProfile)
+signal OnAttackFinished
+## Triggers if Outgoing Attack was blocked while executing current Attack
+signal OnOutgoingAttackBlocked
+## Triggers if Outgoing Attack was blocked while executing current Attack
+signal OnOutgoingAttackParried
+
 # Base State
 var interrupt_allowed: bool = true
 @export var hitscan_root: Node3D
 @export var parry_window: int
-@export var animator: AnimationPlayer
+@export var animation_tree: AnimationTree
 
-# Attacking state
-var selected_profile: AttackProfile
-var current_profile_selection: Array[AttackProfile]
-var began_current_charge: int
-var current_charge_tier: int
-var current_charge_time: int
+@export var currentProfile: AttackProfile
 
 # Blocking state
 var blocking_since: int = -1
@@ -22,51 +25,31 @@ var blocking_since: int = -1
 @export var active_scan_zones: Array[bool] = []
 var hitscan_hits: Array[Node3D] = []
 
-@export_category("DEBUG")
-@export var debugProfile: AttackProfile
+@export_category("debug")
+@export var debugAnimator: AnimationPlayer
+
 @export_tool_button("Perform action", "Play") 
 var dbgButton = debug_perform_attack_profile
 
-# State related signals
-## Gets called when an attack animation has finished
-## Sig: function()
-signal OnAttackFinished
-## Gets called when any animation has finished
-## Sig: function(animation_id: [String])
-signal OnAnimationFinished
-
-# Attack related Signals
-## Gets called when an incoming attack was just parried
-signal OnIncomingAttackParried
-## Gets called when an incoming attack was just blocked
-signal OnIncomingAttackBlocked
-## Gets called when an outgoing attack was just blocked
-signal OnOutgoingAttackParried
-## Gets called when an outgoing attack was just parried
-signal OnOutgoingAttackBlocked
-
 func _ready():
+	animation_tree.animation_finished.connect(internal_attack_end)
 	pass
 
 ## TODO: Stop debug code from running in actual build
 func _process(_delta: float):
-	if not Engine.is_editor_hint():
-		internal_charge_tick()
-		return
+	if currentProfile != null && len(active_scan_zones) != len(currentProfile.colliders): internal_set_profile(currentProfile)
 	
-	if debugProfile != null && len(active_scan_zones) != len(debugProfile.colliders): internal_set_profile(debugProfile)
-	
-	if debugProfile != null:
-		for coll in debugProfile.colliders:
+	if currentProfile != null:
+		for coll in currentProfile.colliders:
 			if coll == null:
-				DebugDraw3D.draw_text(hitscan_root.global_position, "COLLIDER NULL " + str(debugProfile.colliders.find(coll)), 128)
+				DebugDraw3D.draw_text(hitscan_root.global_position, "COLLIDER NULL " + str(currentProfile.colliders.find(coll)), 128)
 				continue
 			if coll.Shape == null:
-				DebugDraw3D.draw_text(hitscan_root.global_position, "SHAPE NULL " + str(debugProfile.colliders.find(coll)), 128)
+				DebugDraw3D.draw_text(hitscan_root.global_position, "SHAPE NULL " + str(currentProfile.colliders.find(coll)), 128)
 				continue
 			
 			var color = Color.RED
-			if active_scan_zones[debugProfile.colliders.find(coll)]:
+			if active_scan_zones[currentProfile.colliders.find(coll)]:
 				if interrupt_allowed: color = Color.GREEN
 				else: color = Color.SLATE_GRAY
 			elif not interrupt_allowed: color = Color.SALMON
@@ -97,66 +80,41 @@ func internal_set_profile(prof: AttackProfile):
 #region Debug Editor Functionallity
 func debug_perform_attack_profile():
 	if not Engine.is_editor_hint(): return
-	if debugProfile == null:
-		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "No debugProfile set", 64, Color.RED, 5)
+	if currentProfile == null:
+		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "No currentProfile set", 64, Color.RED, 5)
 		return
-	if not animator.has_animation(debugProfile.animation):
-		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "Animation " + debugProfile.animation + " not found", 64, Color.RED, 5)
+	if not debugAnimator.has_animation(currentProfile.animation):
+		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "Animation " + currentProfile.animation + " not found", 64, Color.RED, 5)
 		return
 	
-	if debugProfile.attack_type == GameInfo.AttackType.Light:
-		animator.play(debugProfile.animation)
-	else: debug_perform_heavy_attack(debugProfile)
+	if currentProfile.attack_type == GameInfo.AttackType.Light:
+		debugAnimator.play(currentProfile.animation)
+	else: debug_perform_heavy_attack(currentProfile)
 
 func debug_perform_heavy_attack(attackProfile: AttackProfile):
 	if attackProfile.attack_type == GameInfo.AttackType.Light: return
-	animator.play(debugProfile.charging_entry_animation)
-	animator.queue(debugProfile.animation)
+	debugAnimator.play(currentProfile.charging_entry_animation)
+	debugAnimator.queue(currentProfile.animation)
 #endregion
 
 #region Attacking
 
-func BeginCharge(profile_selection: Array[AttackProfile]):
-	internal_set_profile(debugProfile)
-	current_profile_selection = profile_selection
-	began_current_charge = Time.get_ticks_msec()
-
-func internal_charge_tick():
-	if current_profile_selection == null: return
-	var elapsed: int = Time.get_ticks_msec() - began_current_charge
-	
-	var foundProfile: AttackProfile = null
-	for profile in current_profile_selection:
-		# Filter out light attacks, as they are not charged at all
-		# If no other profile selected, selected light attack as default selection
-		if profile.attack_type == GameInfo.AttackType.Light:
-			if foundProfile == null: foundProfile = profile
-			continue
-		
-		# Loop over charge tiers to determine highest charge_tier
-		for tier in profile.charging_tiers:
-			if tier.Required_Time_ms > elapsed:
-				# Any checks at tiers beyond here would be waste resources
-				break
-			var tmp_tier: int = profile.charging_tiers.find(tier)
-			if tier.Required_Time_ms > current_charge_time: # When charge tier found that meets time requirements and takes more "effort" than current tier, select it
-				foundProfile = profile
-				current_charge_tier = tmp_tier
-				current_charge_time = tier.Required_Time_ms
-	
-	selected_profile = foundProfile		# Set selected profile to found profile
-
-func CommenceAttack():
-	BeginAttack(selected_profile, current_charge_tier)
-
-func BeginAttack(profile: AttackProfile, charge_tier: int = 0):
+func BeginAttack(profile: AttackProfile):
+	currentProfile = profile
+	animation_tree.tree_root.get_node("AttackAnimation").animation = currentProfile.animation
+	animation_tree["parameters/Oneshot_LightAttack/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	pass
 
 func AbortAttack() -> bool:
 	if interrupt_allowed:
-		pass
+		animation_tree["parameters/Oneshot_LightAttack/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT
+		active_scan_zones.fill(false)
 	
 	return interrupt_allowed
+
+func internal_attack_end(animation_name: String):
+	if animation_name != currentProfile.animation: return
+	OnAttackFinished.emit(currentProfile)
 
 #endregion
 
@@ -178,18 +136,19 @@ func EndBlocking():
 func ApplyEffect():
 	pass
 
-## Internal and used by animator for blocking
+## Internal and used by debugAnimator for blocking
 func internal_begin_blocking():
 	blocking_since = Time.get_ticks_msec()
-## Internal and used by animator for blocking
+## Internal and used by debugAnimator for blocking
 func internal_end_blocking():
 	blocking_since = -1
 
-## Internal and used by animator for hitscanning
+## Internal and used by debugAnimator for hitscanning
 func internal_begin_hitscan(zone: int):
 	active_scan_zones[zone] = true
 	print("Hitzone active")
-## Internal and used by animator for hitscanning
+
+## Internal and used by debugAnimator for hitscanning
 func internal_end_hitscan(zone: int):
 	active_scan_zones[zone] = false
 

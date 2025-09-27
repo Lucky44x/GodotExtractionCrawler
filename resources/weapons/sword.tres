@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="WeaponData" load_steps=5 format=3 uid="uid://xn4rk8nmql2l"]
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3 uid="uid://xn4rk8nmql2l"]
 
 [ext_resource type="Script" uid="uid://ugxrfankbuyl" path="res://scripts/resources/WeaponData.gd" id="1_0w5r0"]
 [ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/attack_profile/StatModifier.gd" id="1_d4cb0"]
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/attacks/profiles/OneHandedSlash.tres" id="1_ht66n"]
 [ext_resource type="PackedScene" uid="uid://bbdje1rwc1pwn" path="res://resources/weapons/sword.tscn" id="1_t8t18"]
 
 [sub_resource type="Resource" id="Resource_ht66n"]
@@ -13,6 +14,7 @@ metadata/_custom_type_script = "uid://7bo8ucqhauky"
 [resource]
 script = ExtResource("1_0w5r0")
 hit_modifiers = Array[ExtResource("1_d4cb0")]([SubResource("Resource_ht66n")])
+basic_light_attack = ExtResource("1_ht66n")
 name = "Rusty Sword"
 descriptor = "The most basic of weapons"
 prefab = ExtResource("1_t8t18")

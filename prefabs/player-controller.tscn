@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=46 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -12,9 +12,10 @@
 [ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/sword.tres" id="8_tofid"]
 [ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/player/EquipmentManager.gd" id="9_0qcyq"]
-[ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerAttack.gd" id="9_lmqpx"]
+[ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerLightAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="10_d3mra"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/attacks/profiles/OneHandedSlash.tres" id="16_ohd7q"]
 [ext_resource type="AnimationLibrary" uid="uid://b5kwie374few5" path="res://animations/combat.res" id="16_wgn03"]
 [ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/stats/stat-controller.tscn" id="17_250kt"]
 [ext_resource type="Script" uid="uid://bg3dy1jtahxwh" path="res://scripts/debug/DebugAnimationCallback.gd" id="17_k1vjg"]
@@ -159,21 +160,102 @@ tracks/0/path = NodePath("../Rig/HandR")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0.75, 0, -0.5)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Model")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k1vjg"]
 _data = {
 &"RESET": SubResource("Animation_wgn03")
 }
 
-[node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("stat_controller")]
+[sub_resource type="Animation" id="Animation_ohd7q"]
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Model")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.5, 1, 0, 0.133, 0, 1, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Model")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, -0.043619387, 0, 0.99904823, 0.5, 1, 0, 0, 0, 1, 0.8, 1, 0, 0.043619387, 0, 0.99904823, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_gqpng"]
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Model")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.018710451, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Model")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0, 0, -0.13052617, 0.9914448, 0.5, 1, 0, 0, 0, 1, 0.7, 1, 0, 0, 0.13052617, 0.9914448, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tm53r"]
+_data = {
+&"loco_idle": SubResource("Animation_ohd7q"),
+&"loco_move": SubResource("Animation_gqpng")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_250kt"]
+animation = &"combat/oh_sword_swing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ohd7q"]
+animation = &"loco/loco_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gqpng"]
+animation = &"loco/loco_move"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_tm53r"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_ohd7q")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_gqpng")
+blend_point_1/pos = 1.0
+min_space = 0.0
+value_label = "input"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_gqpng"]
+filter_enabled = true
+filters = [".", "../Rig/HandR"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tm53r"]
+graph_offset = Vector2(-209.04524, 50.783436)
+nodes/output/position = Vector2(1213.3334, 120)
+nodes/AttackAnimation/node = SubResource("AnimationNodeAnimation_250kt")
+nodes/AttackAnimation/position = Vector2(26.666666, 253.33333)
+nodes/Oneshot_LightAttack/node = SubResource("AnimationNodeOneShot_gqpng")
+nodes/Oneshot_LightAttack/position = Vector2(386.66666, 106.666664)
+nodes/MovementBlend/node = SubResource("AnimationNodeBlendSpace1D_tm53r")
+nodes/MovementBlend/position = Vector2(93.333336, 53.333332)
+node_connections = [&"output", 0, &"Oneshot_LightAttack", &"Oneshot_LightAttack", 0, &"MovementBlend", &"Oneshot_LightAttack", 1, &"AttackAnimation"]
+
+[node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("stat_controller", "animation_tree")]
 collision_mask = 3
 script = ExtResource("1_3d8xk")
 stat_controller = NodePath("StatController")
+animation_tree = NodePath("AnimationTree")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
@@ -233,7 +315,7 @@ speed_stat = SubResource("Resource_801f5")
 [node name="Rig" type="Node3D" parent="."]
 
 [node name="HandR" type="Node3D" parent="Rig"]
-transform = Transform3D(0.99999964, 0, 0, 0, -0.44250768, 0.89676416, 0, -0.8967644, -0.44250757, 0.75, 0, -0.5)
+transform = Transform3D(0.99999964, 0, 0, 0, 0.9999997, 0, 0, 0, 0.99999946, 0.75, 0, -0.5)
 
 [node name="HandL" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
@@ -248,38 +330,45 @@ SlotPivots = [NodePath("../Rig/HandR")]
 SlotNames = Array[String](["Main Weapon"])
 SlotConstraints = Array[int]([0])
 
-[node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("hitscan_root", "animator")]
+[node name="CombatController" type="Node" parent="." node_paths=PackedStringArray("hitscan_root", "animation_tree", "debugAnimator")]
 script = ExtResource("10_d3mra")
 hitscan_root = NodePath("../HitscanRoot")
-animator = NodePath("CombatPlayer")
+animation_tree = NodePath("../AnimationTree")
+currentProfile = ExtResource("16_ohd7q")
 active_scan_zones = Array[bool]([false])
+debugAnimator = NodePath("../PlayerAnimation")
 
-[node name="CombatPlayer" type="AnimationPlayer" parent="CombatController"]
+[node name="StatController" parent="." instance=ExtResource("17_250kt")]
+TrackedStats = Array[int]([0, 1, 2, 3, 4, 5, 6])
+CollectedStats = Array[int]([1, 3, 4, 6])
+
+[node name="PlayerAnimation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CombatController")
 libraries = {
 &"": SubResource("AnimationLibrary_k1vjg"),
-&"combat": ExtResource("16_wgn03")
+&"combat": ExtResource("16_wgn03"),
+&"loco": SubResource("AnimationLibrary_tm53r")
 }
-speed_scale = 0.074
 
-[node name="DebugAnimationCallback" type="Node" parent="CombatController" node_paths=PackedStringArray("Animator", "track_targets")]
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../CombatController")
+tree_root = SubResource("AnimationNodeBlendTree_tm53r")
+anim_player = NodePath("../PlayerAnimation")
+parameters/Oneshot_LightAttack/active = false
+parameters/Oneshot_LightAttack/internal_active = false
+parameters/Oneshot_LightAttack/request = 0
+parameters/MovementBlend/blend_position = 0.0
+
+[node name="DebugAnimationCallback" type="Node" parent="." node_paths=PackedStringArray("Animator", "track_targets")]
 script = ExtResource("17_k1vjg")
-Animator = NodePath("../CombatPlayer")
-track_targets = [NodePath("..")]
+Animator = NodePath("../PlayerAnimation")
+track_targets = [NodePath("../CombatController")]
 callArray = [[{
 "args": [0],
 "method": &"internal_begin_hitscan"
 }, {
-"args": [],
-"method": &"internal_lock_interrupt"
-}, {
 "args": [0],
 "method": &"internal_end_hitscan"
-}, {
-"args": [],
-"method": &"internal_unlock_interrupt"
 }]]
-keyTimes = [[0.13333334, 0.2, 0.4, 0.401887]]
-currentKeyFrames = Array[int]([4])
-
-[node name="StatController" parent="." instance=ExtResource("17_250kt")]
-TrackedStats = Array[float]([100.0, 100.0, 100.0, 100.0, 14.0, 0.0])
+keyTimes = [[0.3, 0.8]]
+currentKeyFrames = Array[int]([1])

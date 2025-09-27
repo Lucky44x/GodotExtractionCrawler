@@ -1,7 +1,8 @@
 extends Node
 class_name StatController
 
-@export var TrackedStats: Array[float] = []
+@export var StatValues: Array[float] = []
+@export var TrackedStats: Array[GameInfo.StatType]
 @export var CollectedStats: Array[GameInfo.StatType]
 
 var mod_dictionary: Dictionary = {}
@@ -10,11 +11,14 @@ var cleanup_array: Array[StatModifierNode] = []
 signal StatUpdated
 
 func _ready():
-	TrackedStats.resize(len(GameInfo.StatType))
+	StatValues.resize(len(GameInfo.StatType))
 	
 	for val in GameInfo.StatType:
+		if not TrackedStats.has(GameInfo.StatType.get(val)): continue
+		
 		var instance = Node.new()
 		instance.name = str(val)
+		print(instance.name)
 		add_child(instance)
 		instance.owner = self
 		instance.unique_name_in_owner = true
@@ -25,12 +29,18 @@ func _ready():
 		var stat_dict : Dictionary = get_modifier_stat_dict(GameInfo.StatType.get(val))
 		stat_dict.set(subInstance.name, subInstance)
 
+func SetStat(stat: GameInfo.StatType, value: float):
+	if not TrackedStats.has(stat): return
+	StatValues[stat] = value
+	StatUpdated.emit(stat, StatValues[stat])
+
 func GetStat(stat: GameInfo.StatType) -> float:
-	return TrackedStats[stat]
+	if not TrackedStats.has(stat) and not CollectedStats.has(stat): return 0.0
+	return StatValues[stat]
 
 func _process(_delta: float):
-	for idx in len(TrackedStats):
-		var stat: GameInfo.StatType = idx
+	for idx in len(StatValues):
+		var stat: GameInfo.StatType = idx as GameInfo.StatType
 		if CollectedStats.has(stat): continue
 		update_tracked_stat(stat)
 	
@@ -40,12 +50,12 @@ func _process(_delta: float):
 	handle_cleanup()
 
 func update_tracked_stat(stat: GameInfo.StatType):
-	TrackedStats[stat] += collect_stat_modifier_values(stat)
-	StatUpdated.emit(stat, TrackedStats[stat])
+	StatValues[stat] += collect_stat_modifier_values(stat)
+	StatUpdated.emit(stat, StatValues[stat])
 
 func rebuild_tracked_stat(stat: GameInfo.StatType):
-	TrackedStats[stat] = collect_stat_modifier_values(stat)
-	StatUpdated.emit(stat, TrackedStats[stat])
+	StatValues[stat] = collect_stat_modifier_values(stat)
+	StatUpdated.emit(stat, StatValues[stat])
 
 func handle_cleanup():
 	var dict: Dictionary = {}
@@ -60,7 +70,7 @@ func handle_cleanup():
 		rebuild_tracked_stat(stat)
 
 func update_stat_modifier_nodes(stat: GameInfo.StatType):
-# Get the root node for this stat
+	# Get the root node for this stat
 	var root_node = get_node("%" + GameInfo.StatType.keys()[stat])
 	
 	for sub_node in root_node.get_children():
