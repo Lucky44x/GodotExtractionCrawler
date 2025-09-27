@@ -14,12 +14,14 @@ func push_instance(node: NodePoolInstance):
 	instance_stack.push_back(node)
 	node.reparent(self)
 	node.OnPush()
+	node.process_mode = Node.PROCESS_MODE_DISABLED
 
 func pop_instance() -> NodePoolInstance:
 	if len(instance_stack) <= 0:
 		create_instance()
 	var instance = instance_stack.pop_back()
 	instance.OnPop()
+	instance.process_mode = Node.PROCESS_MODE_INHERIT
 	return instance
 
 func create_instance():

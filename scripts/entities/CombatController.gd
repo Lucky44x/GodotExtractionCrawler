@@ -32,11 +32,15 @@ var hitscan_hits: Array[Node3D] = []
 var dbgButton = debug_perform_attack_profile
 
 func _ready():
+	if animation_tree == null: return
+	
 	animation_tree.animation_finished.connect(internal_attack_end)
 	pass
 
 ## TODO: Stop debug code from running in actual build
 func _process(_delta: float):
+	if hitscan_root == null: return
+	
 	if currentProfile != null && len(active_scan_zones) != len(currentProfile.colliders): internal_set_profile(currentProfile)
 	
 	if currentProfile != null:
@@ -87,14 +91,8 @@ func debug_perform_attack_profile():
 		DebugDraw3D.draw_text(hitscan_root.global_position + Vector3.UP * 2, "Animation " + currentProfile.animation + " not found", 64, Color.RED, 5)
 		return
 	
-	if currentProfile.attack_type == GameInfo.AttackType.Light:
-		debugAnimator.play(currentProfile.animation)
-	else: debug_perform_heavy_attack(currentProfile)
+	debugAnimator.play(currentProfile.animation)
 
-func debug_perform_heavy_attack(attackProfile: AttackProfile):
-	if attackProfile.attack_type == GameInfo.AttackType.Light: return
-	debugAnimator.play(currentProfile.charging_entry_animation)
-	debugAnimator.queue(currentProfile.animation)
 #endregion
 
 #region Attacking

@@ -8,6 +8,9 @@ var trans_mod: StatModifierNode
 var controller: PlayerController
 var target: Node3D
 
+var begin_attack_input: int = 0
+var heavy_notified: bool = false
+
 func _ready():
 	controller = $"../.."
 
@@ -20,6 +23,9 @@ func Enter():
 		return
 	
 	controller.current_target = target
+	
+	var weaponData: WeaponData = $"../../Equipment".get_main_weapon()
+	$"../../ComboController".initialize_weapon_combos(weaponData.basic_light_attack, weaponData.basic_heavy_attack)
 
 func Exit():
 	trans_mod.die()
@@ -29,9 +35,20 @@ func Update(_delta: float):
 	if Input.is_action_pressed("combat_block"): parent.push_transient_state(self, "trans_block")
 	elif Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "walking")
 	elif Input.is_action_just_pressed("combat_dodge"): parent.push_transient_state(self, "trans_dodge")
-	elif Input.is_action_just_released("combat_attack"):
-		# Check if strong attack or light attack
-		parent.push_transient_state(self, "trans_attack")
+	elif Input.is_action_just_pressed("combat_attack"):
+		begin_attack_input = Time.get_ticks_msec()
+	
+	if begin_attack_input > -1:
+		var hold_time = Time.get_ticks_msec() - begin_attack_input
+		if $"../../ComboController".is_heavy_attack(hold_time) and not heavy_notified:
+			heavy_notified = true
+			Input.start_joy_vibration(0, 0.25, 0.1, 0.1)
+		
+		if Input.is_action_just_released("combat_attack"):
+			heavy_notified = false
+			begin_attack_input = -1
+			$"../trans_attack".profile = $"../../ComboController".choose_next_attack(hold_time)
+			parent.push_transient_state(self, "trans_attack")
 
 func get_closest_enemy() -> Node3D:
 	var targets = $LockonArea.get_overlapping_bodies()

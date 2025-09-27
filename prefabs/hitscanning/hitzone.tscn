@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbrtw4uyqwkej"]
+
+[ext_resource type="Script" uid="uid://b2q6bu00ww63p" path="res://scripts/entities/hitzonePooling/HitzoneInstance.gd" id="1_oyh4p"]
+
+[node name="HitzoneInstance" type="Node"]
+script = ExtResource("1_oyh4p")
+
+[node name="HitzoneArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="Shape" type="CollisionShape3D" parent="HitzoneArea"]
+debug_color = Color(0.83396214, 0.39021015, 7.70092e-07, 0.41960785)

@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccbrfe6blnh8b"]
+
+[ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="1_3qois"]
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/attacks/profiles/OH_Slash_L.tres" id="2_gdnoj"]
+[ext_resource type="Script" uid="uid://bb3gg317y6nq1" path="res://scripts/pooling/NodePool.gd" id="3_gdnoj"]
+[ext_resource type="PackedScene" uid="uid://bbrtw4uyqwkej" path="res://prefabs/hitscanning/hitzone.tscn" id="4_2wl4y"]
+
+[node name="CombatController" type="Node"]
+script = ExtResource("1_3qois")
+currentProfile = ExtResource("2_gdnoj")
+active_scan_zones = Array[bool]([true])
+
+[node name="HitzonePool" type="Node" parent="."]
+script = ExtResource("3_gdnoj")
+instance_prefab = ExtResource("4_2wl4y")
+starting_size = 3

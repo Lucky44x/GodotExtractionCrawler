@@ -21,7 +21,10 @@ func OnAttackFinished(prof: AttackProfile):
 
 func Enter():
 	trans_mod = stat_controller.add_stat_modifier(speed_stat)
-	profile = equipment_controller.get_main_weapon().basic_light_attack
+	if profile == null:
+		parent.pop_transient_state()
+		return
+	
 	combat_controller.BeginAttack(profile)
 
 func Exit():

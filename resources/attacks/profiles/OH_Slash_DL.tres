@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=4 format=3 uid="uid://psvd2rq72yr7"]
+
+[ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/attack_profile/HitscanCollider.gd" id="1_bsqps"]
+[ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/attack_profile/StatModifier.gd" id="2_x31tb"]
+[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/attack_profile/AttackProfile.gd" id="3_mtdhg"]
+
+[resource]
+script = ExtResource("3_mtdhg")
+animation = "combat/oh_sword_swing_dl"
+metadata/_custom_type_script = "uid://bekuvyga2nibg"
