@@ -3,6 +3,8 @@ extends State
 @export var stat_controller: StatController
 @export var speed_stat: StatModifier
 
+@export var heavy_attack_hold_time_ms: int
+
 var trans_mod: StatModifierNode
 
 var controller: PlayerController
@@ -25,7 +27,6 @@ func Enter():
 	controller.current_target = target
 	
 	var weaponData: WeaponData = $"../../Equipment".get_main_weapon()
-	$"../../ComboController".initialize_weapon_combos(weaponData.basic_light_attack, weaponData.basic_heavy_attack)
 
 func Exit():
 	trans_mod.die()
@@ -40,14 +41,14 @@ func Update(_delta: float):
 	
 	if begin_attack_input > -1:
 		var hold_time = Time.get_ticks_msec() - begin_attack_input
-		if $"../../ComboController".is_heavy_attack(hold_time) and not heavy_notified:
+		if hold_time > heavy_attack_hold_time_ms and not heavy_notified:
 			heavy_notified = true
 			Input.start_joy_vibration(0, 0.25, 0.1, 0.1)
+			print("Heavy Attack Charged")
 		
 		if Input.is_action_just_released("combat_attack"):
 			heavy_notified = false
 			begin_attack_input = -1
-			$"../trans_attack".profile = $"../../ComboController".choose_next_attack(hold_time)
 			parent.push_transient_state(self, "trans_attack")
 
 func get_closest_enemy() -> Node3D:

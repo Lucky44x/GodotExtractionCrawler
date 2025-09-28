@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackStance" load_steps=2 format=3 uid="uid://c8ua3x5qtibl6"]
+
+[ext_resource type="Script" uid="uid://w7mpmgf6vtvd" path="res://scripts/resources/combat_data/AttackStance.gd" id="1_8isg8"]
+
+[resource]
+script = ExtResource("1_8isg8")
+stance_id = "idle"
+stance_animation = "RESET"
+next_light_attacks = Array[String](["slash_left"])
+next_heavy_attack = Array[String](["heavy_stab"])
+metadata/_custom_type_script = "uid://w7mpmgf6vtvd"

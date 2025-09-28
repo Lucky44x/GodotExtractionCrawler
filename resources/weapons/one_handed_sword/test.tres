@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CombatProfile" load_steps=5 format=3 uid="uid://boenki8mwyxs3"]
+
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/weapons/one_handed_sword/profiles/oh_slash_l.tres" id="1_dbedk"]
+[ext_resource type="Script" uid="uid://bbjv1sahsk48d" path="res://scripts/resources/combat_data/CombatProfile.gd" id="1_enldv"]
+[ext_resource type="Resource" uid="uid://ckvaigu87y8wr" path="res://resources/weapons/one_handed_sword/profiles/oh_heavy_stab.tres" id="2_40apn"]
+[ext_resource type="Resource" uid="uid://c8ua3x5qtibl6" path="res://resources/weapons/one_handed_sword/stances/oh_idle_stance.tres" id="4_2stcl"]
+
+[resource]
+script = ExtResource("1_enldv")
+attack_dict = {
+"slash_left": ExtResource("1_dbedk"),
+"stab_heavy": ExtResource("2_40apn")
+}
+stance_dict = {
+"idle": ExtResource("4_2stcl")
+}
+metadata/_custom_type_script = "uid://bbjv1sahsk48d"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=6 format=3 uid="uid://ckvaigu87y8wr"]
+
+[ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/combat_data/HitscanCollider.gd" id="1_uhe5u"]
+[ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="2_7mxa8"]
+[ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/combat_data/AttackProfile.gd" id="3_e3e3u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sqe0f"]
+size = Vector3(1, 1, 2)
+
+[sub_resource type="Resource" id="Resource_sqe0f"]
+script = ExtResource("1_uhe5u")
+Position = Vector3(0, 0, -0.75)
+Shape = SubResource("BoxShape3D_sqe0f")
+metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
+
+[resource]
+script = ExtResource("3_e3e3u")
+profile_id = "heavy_stab"
+animation = "combat/oh_sword_heavy_stab"
+colliders = Array[ExtResource("1_uhe5u")]([SubResource("Resource_sqe0f")])
+attack_type = 1
+next_stance = "idle"
+metadata/_custom_type_script = "uid://bekuvyga2nibg"

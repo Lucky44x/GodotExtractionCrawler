@@ -35,6 +35,7 @@ enabled=PackedStringArray("res://addons/mixamo_animation_retargeter/plugin.cfg",
 [file_customization]
 
 folder_colors={
+"res://dbs/": "purple",
 "res://resources/": "orange",
 "res://scripts/": "teal"
 }

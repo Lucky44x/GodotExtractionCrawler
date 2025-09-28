@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ccbrfe6blnh8b"]
 
 [ext_resource type="Script" uid="uid://byby0cr46ugkv" path="res://scripts/entities/CombatController.gd" id="1_3qois"]
-[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/attacks/profiles/OH_Slash_L.tres" id="2_gdnoj"]
+[ext_resource type="Resource" uid="uid://cvt27u74alxa2" path="res://resources/weapons/one_handed_sword/profiles/oh_slash_l.tres" id="2_gdnoj"]
 [ext_resource type="Script" uid="uid://bb3gg317y6nq1" path="res://scripts/pooling/NodePool.gd" id="3_gdnoj"]
 [ext_resource type="PackedScene" uid="uid://bbrtw4uyqwkej" path="res://prefabs/hitscanning/hitzone.tscn" id="4_2wl4y"]
 

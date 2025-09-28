@@ -7,9 +7,8 @@ class_name AttackProfile
 @export var hit_effects: Array[StatModifier]
 @export var attack_type: GameInfo.AttackType : set = invalidate_type
 
-@export_group("Combo-Data")
-@export var next_light_attacks: Array[AttackProfile]
-@export var next_heavy_attacks: Array[AttackProfile]
+@export_group("Stance-Data")
+@export var next_stance: String
 
 @export_category("Type Specifics")
 
@@ -33,7 +32,6 @@ func invalidate_type(newType):
 			charging_tiers = []
 		GameInfo.AttackType.Heavy:
 			charging_tiers.clear()
-			charging_tiers.resize(1)
 		GameInfo.AttackType.Charged:
 			heavy_charge_tier = null
 			charging_tiers.clear()
@@ -47,8 +45,8 @@ func _get_property_list():
 	var ret = []
 	match(attack_type):
 		GameInfo.AttackType.Light: return []
-		GameInfo.AttackType.Heavy:
-			ret.append({ "name": &"begin_charge_time_ms", "class_name": &"", "type": TYPE_INT, "usage": 4102 })
+		GameInfo.AttackType.Heavy: return [] # No big diff between light and heavy attacks, charge time is relegated to Input specifics instead
+			# ret.append({ "name": &"begin_charge_time_ms", "class_name": &"", "type": TYPE_INT, "usage": 4102 })
 			# ret.append({ "name": &"charging_entry_animation", "class_name": &"", "type": 4, "hint": 0, "hint_string": "", "usage": 4102 })
 			# ret.append({ "name": &"charging_animation", "class_name": &"", "type": 4, "hint": 0, "hint_string": "", "usage": 4102 })
 			# ret.append({

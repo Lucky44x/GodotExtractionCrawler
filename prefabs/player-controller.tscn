@@ -5,17 +5,17 @@
 [ext_resource type="Script" uid="uid://3jpbtgk2ox3v" path="res://scripts/state-machine/StateMachine.gd" id="3_0kck2"]
 [ext_resource type="Script" uid="uid://r7ggknfdcijq" path="res://scripts/entities/player/states/PlayerWalking.gd" id="3_jeygn"]
 [ext_resource type="Script" uid="uid://cvxdrd2m5vbgf" path="res://scripts/entities/player/states/PlayerCombat.gd" id="4_0kck2"]
-[ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/attack_profile/StatModifier.gd" id="5_250kt"]
+[ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="5_250kt"]
 [ext_resource type="Script" uid="uid://dgw2r4365cdvh" path="res://scripts/entities/player/states/TransientPlayerRunning.gd" id="5_d3mra"]
 [ext_resource type="Curve" uid="uid://bo585vefbn04d" path="res://resources/curves/constant_curve.tres" id="5_ohd7q"]
 [ext_resource type="Script" uid="uid://cqsis73v5qr3t" path="res://scripts/entities/player/states/TransientPlayerBlock.gd" id="7_0qcyq"]
 [ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
-[ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/sword.tres" id="8_tofid"]
+[ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/one_handed_sword/items/sword.tres" id="8_tofid"]
 [ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/player/EquipmentManager.gd" id="9_0qcyq"]
 [ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerLightAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
 [ext_resource type="PackedScene" uid="uid://ccbrfe6blnh8b" path="res://prefabs/components/combat-controller.tscn" id="15_250kt"]
-[ext_resource type="Resource" uid="uid://ckvaigu87y8wr" path="res://resources/attacks/profiles/OH_Heavy_Stab.tres" id="16_gqpng"]
+[ext_resource type="Resource" uid="uid://ckvaigu87y8wr" path="res://resources/weapons/one_handed_sword/profiles/oh_heavy_stab.tres" id="16_gqpng"]
 [ext_resource type="Script" uid="uid://chxkbwwpcpgcj" path="res://scripts/entities/ComboController.gd" id="16_ohd7q"]
 [ext_resource type="AnimationLibrary" uid="uid://b5kwie374few5" path="res://animations/combat.res" id="16_wgn03"]
 [ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/stats/stat-controller.tscn" id="17_250kt"]
@@ -256,7 +256,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.99619466, 0, 0.08715574, 0, 0.99999994, 0, -0.08715573, 0, 0.9961947, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
