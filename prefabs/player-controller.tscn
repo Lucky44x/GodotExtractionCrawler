@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=51 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -11,9 +11,10 @@
 [ext_resource type="Script" uid="uid://cqsis73v5qr3t" path="res://scripts/entities/player/states/TransientPlayerBlock.gd" id="7_0qcyq"]
 [ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/one_handed_sword/items/sword.tres" id="8_tofid"]
-[ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/player/EquipmentManager.gd" id="9_0qcyq"]
+[ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/EquipmentController.gd" id="9_0qcyq"]
 [ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerLightAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
+[ext_resource type="Script" uid="uid://l1x7uep16mgb" path="res://scripts/entities/player/states/TransientPlayerHeavyAttack.gd" id="12_tm53r"]
 [ext_resource type="PackedScene" uid="uid://ccbrfe6blnh8b" path="res://prefabs/components/combat-controller.tscn" id="15_250kt"]
 [ext_resource type="Resource" uid="uid://ckvaigu87y8wr" path="res://resources/weapons/one_handed_sword/profiles/oh_heavy_stab.tres" id="16_gqpng"]
 [ext_resource type="Script" uid="uid://chxkbwwpcpgcj" path="res://scripts/entities/ComboController.gd" id="16_ohd7q"]
@@ -138,10 +139,24 @@ modifier_value = -15.0
 modifier_stacking_rule = 1
 metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
+[sub_resource type="Resource" id="Resource_b13w7"]
+script = ExtResource("5_250kt")
+target_stat = 4
+modifier_value = 2.0
+modifier_stacking_rule = 2
+modifier_type = 1
+modifier_id = "movement_speed"
+modifier_tier = 2
+duration_ms = -1
+falloff_operation = ExtResource("5_ohd7q")
+falloff_tracked_property = 0
+falloff_linked_stat = 0
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
+
 [sub_resource type="Resource" id="Resource_801f5"]
 script = ExtResource("5_250kt")
 target_stat = 4
-modifier_value = 1.5
+modifier_value = 1.0
 modifier_stacking_rule = 2
 modifier_type = 1
 modifier_id = "movement_speed"
@@ -154,6 +169,7 @@ metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
 [sub_resource type="Animation" id="Animation_wgn03"]
 length = 0.001
+loop_mode = 1
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -214,8 +230,12 @@ _data = {
 &"loco_move": SubResource("Animation_gqpng")
 }
 
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_gqpng"]
+filter_enabled = true
+filters = ["../Rig/HandR"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_250kt"]
-animation = &"combat/oh_sword_swing"
+animation = &"combat/oh_sword_swing_l"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ohd7q"]
 animation = &"loco/loco_idle"
@@ -235,16 +255,23 @@ value_label = "input"
 filter_enabled = true
 filters = [".", "../Rig/HandR"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tm53r"]
+animation = &"RESET"
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tm53r"]
-graph_offset = Vector2(-189.23706, 56.990845)
+graph_offset = Vector2(-239.13786, -103.93148)
 nodes/output/position = Vector2(1213.3334, 120)
 nodes/AttackAnimation/node = SubResource("AnimationNodeAnimation_250kt")
-nodes/AttackAnimation/position = Vector2(26.666666, 253.33333)
+nodes/AttackAnimation/position = Vector2(-120, 240)
 nodes/Oneshot_LightAttack/node = SubResource("AnimationNodeOneShot_gqpng")
 nodes/Oneshot_LightAttack/position = Vector2(386.66666, 106.666664)
 nodes/MovementBlend/node = SubResource("AnimationNodeBlendSpace1D_tm53r")
-nodes/MovementBlend/position = Vector2(93.333336, 53.333332)
-node_connections = [&"output", 0, &"Oneshot_LightAttack", &"Oneshot_LightAttack", 0, &"MovementBlend", &"Oneshot_LightAttack", 1, &"AttackAnimation"]
+nodes/MovementBlend/position = Vector2(-120, -106.666664)
+nodes/StanceAnimation/node = SubResource("AnimationNodeAnimation_tm53r")
+nodes/StanceAnimation/position = Vector2(-120, 80)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_gqpng")
+nodes/Add2/position = Vector2(133.33333, -66.666664)
+node_connections = [&"output", 0, &"Oneshot_LightAttack", &"Oneshot_LightAttack", 0, &"Add2", &"Oneshot_LightAttack", 1, &"AttackAnimation", &"Add2", 0, &"MovementBlend", &"Add2", 1, &"StanceAnimation"]
 
 [node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("stat_controller", "animation_tree")]
 collision_mask = 3
@@ -256,7 +283,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99619466, 0, 0.08715574, 0, 0.99999994, 0, -0.08715573, 0, 0.9961947, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
@@ -285,10 +312,10 @@ stat_controller = NodePath("../../StatController")
 speed_stat = SubResource("Resource_gqpng")
 stamina_mod = SubResource("Resource_klqbu")
 
-[node name="combat" type="Node3D" parent="StateMachine" node_paths=PackedStringArray("stat_controller")]
+[node name="combat" type="Node3D" parent="StateMachine"]
 script = ExtResource("4_0kck2")
-stat_controller = NodePath("../../StatController")
 speed_stat = SubResource("Resource_tm53r")
+heavy_attack_hold_time_ms = 250
 
 [node name="LockonArea" type="Area3D" parent="StateMachine/combat"]
 collision_layer = 0
@@ -308,9 +335,12 @@ script = ExtResource("8_d3mra")
 stat_controller = NodePath("../../StatController")
 dodge_stat_mod = SubResource("Resource_1ou4q")
 
-[node name="trans_attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("stat_controller")]
+[node name="trans_attack_light" type="Node" parent="StateMachine"]
 script = ExtResource("9_lmqpx")
-stat_controller = NodePath("../../StatController")
+speed_stat = SubResource("Resource_b13w7")
+
+[node name="trans_attack_heavy" type="Node" parent="StateMachine"]
+script = ExtResource("12_tm53r")
 speed_stat = SubResource("Resource_801f5")
 
 [node name="Rig" type="Node3D" parent="."]
@@ -324,7 +354,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
 [node name="HitscanRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
-[node name="Equipment" type="Node" parent="." node_paths=PackedStringArray("SlotPivots")]
+[node name="EquipmentController" type="Node" parent="." node_paths=PackedStringArray("SlotPivots")]
 script = ExtResource("9_0qcyq")
 EquipmentSlots = Array[ExtResource("10_t2i2o")]([ExtResource("8_tofid")])
 SlotPivots = [NodePath("../Rig/HandR")]
@@ -338,8 +368,10 @@ currentProfile = ExtResource("16_gqpng")
 active_scan_zones = Array[bool]([false])
 debugAnimator = NodePath("../PlayerAnimation")
 
-[node name="ComboController" type="Node" parent="."]
+[node name="ComboController" type="Node" parent="." node_paths=PackedStringArray("combat_controller", "equipment_controller")]
 script = ExtResource("16_ohd7q")
+combat_controller = NodePath("../CombatController")
+equipment_controller = NodePath("../EquipmentController")
 
 [node name="StatController" parent="." instance=ExtResource("17_250kt")]
 TrackedStats = Array[int]([0, 1, 2, 3, 4, 5, 6])
@@ -362,6 +394,7 @@ parameters/Oneshot_LightAttack/active = false
 parameters/Oneshot_LightAttack/internal_active = false
 parameters/Oneshot_LightAttack/request = 0
 parameters/MovementBlend/blend_position = 0.0
+parameters/Add2/add_amount = 1.0
 
 [node name="DebugAnimationCallback" type="Node" parent="." node_paths=PackedStringArray("Animator", "track_targets")]
 script = ExtResource("17_k1vjg")

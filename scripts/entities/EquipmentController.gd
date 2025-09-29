@@ -1,6 +1,6 @@
 @tool
 extends Node
-class_name EquipmentManager
+class_name EquipmentController
 
 enum EquipmentSlot {
 	MainWeapon

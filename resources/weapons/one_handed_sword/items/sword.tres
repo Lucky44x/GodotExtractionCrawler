@@ -13,6 +13,9 @@ metadata/_custom_type_script = "uid://7bo8ucqhauky"
 [resource]
 script = ExtResource("4_qcek4")
 hit_modifiers = Array[ExtResource("2_qbknq")]([SubResource("Resource_ht66n")])
+initial_stance = &"oh_idle_stance"
+_tool_selected_category = 1
+_tool_selected_stance = 0
 name = "Rusty Sword"
 descriptor = "The most basic of weapons"
 prefab = ExtResource("3_ishbs")

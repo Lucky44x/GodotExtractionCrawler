@@ -15,6 +15,8 @@ static func export_database_data(path: String, data: Dictionary) -> bool:
 		return false
 	f.store_var(data)
 	f.close()
+	var res = ResourceLoader.load(path)
+	res.emit_changed()
 	return true
 
 

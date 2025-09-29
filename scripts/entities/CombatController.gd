@@ -33,7 +33,6 @@ var dbgButton = debug_perform_attack_profile
 
 func _ready():
 	if animation_tree == null: return
-	
 	animation_tree.animation_finished.connect(internal_attack_end)
 	pass
 
@@ -114,6 +113,11 @@ func internal_attack_end(animation_name: String):
 	if animation_name != currentProfile.animation: return
 	OnAttackFinished.emit(currentProfile)
 
+#endregion
+
+#region other Animation
+func EnterStance(animation: String):
+	animation_tree.tree_root.get_node("StanceAnimation").animation = animation
 #endregion
 
 # Exposed and used by attacking combat-controller

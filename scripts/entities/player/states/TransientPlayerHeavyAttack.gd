@@ -18,7 +18,7 @@ func OnAttackFinished(prof: AttackProfile):
 
 func Enter():
 	trans_mod = stat_controller.add_stat_modifier(speed_stat)
-	profile = combo_controller.choose_next_light_attack()
+	profile = combo_controller.choose_next_heavy_attack()
 	if profile == null:
 		parent.pop_transient_state()
 		return

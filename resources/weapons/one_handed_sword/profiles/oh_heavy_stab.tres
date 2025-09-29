@@ -15,9 +15,9 @@ metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
 
 [resource]
 script = ExtResource("3_e3e3u")
-profile_id = "heavy_stab"
 animation = "combat/oh_sword_heavy_stab"
 colliders = Array[ExtResource("1_uhe5u")]([SubResource("Resource_sqe0f")])
 attack_type = 1
-next_stance = "idle"
+_tool_selected_category = 1
+_tool_selected_stance = 0
 metadata/_custom_type_script = "uid://bekuvyga2nibg"

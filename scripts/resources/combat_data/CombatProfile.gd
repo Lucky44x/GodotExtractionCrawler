@@ -97,7 +97,7 @@ func _tool_get_data_entries(collection: StringName) -> Array:
 	data_ids = ret
 	return ret
 
-func _get_property_list():
+func _get_property_list() -> Array:
 	if !Engine.is_editor_hint(): return []
 	var ret = []
 	

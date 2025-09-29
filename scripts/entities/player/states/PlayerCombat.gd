@@ -1,13 +1,15 @@
 extends State
 
-@export var stat_controller: StatController
+@onready var stat_controller: StatController = $"../../StatController"
+@onready var controller: PlayerController = $"../.."
+@onready var combo_controller: ComboController = $"../../ComboController"
+
 @export var speed_stat: StatModifier
 
 @export var heavy_attack_hold_time_ms: int
 
 var trans_mod: StatModifierNode
 
-var controller: PlayerController
 var target: Node3D
 
 var begin_attack_input: int = 0
@@ -18,6 +20,9 @@ func _ready():
 
 func Enter():
 	trans_mod = stat_controller.add_stat_modifier(speed_stat)
+	# Initialize Combo Controller
+	combo_controller.intialize_state()
+	
 	# Lock onto the closest Enemy
 	target = get_closest_enemy()
 	if not target: 
@@ -25,8 +30,6 @@ func Enter():
 		return
 	
 	controller.current_target = target
-	
-	var weaponData: WeaponData = $"../../Equipment".get_main_weapon()
 
 func Exit():
 	trans_mod.die()
@@ -44,18 +47,20 @@ func Update(_delta: float):
 		if hold_time > heavy_attack_hold_time_ms and not heavy_notified:
 			heavy_notified = true
 			Input.start_joy_vibration(0, 0.25, 0.1, 0.1)
-			print("Heavy Attack Charged")
 		
 		if Input.is_action_just_released("combat_attack"):
+			if heavy_notified:
+				parent.push_transient_state(self, "trans_attack_heavy")
+			else:
+				parent.push_transient_state(self, "trans_attack_light")
 			heavy_notified = false
 			begin_attack_input = -1
-			parent.push_transient_state(self, "trans_attack")
 
 func get_closest_enemy() -> Node3D:
 	var targets = $LockonArea.get_overlapping_bodies()
 	if not targets or len(targets) <= 0: return null
 	
-	var closestTarget: Node3D
+	var closestTarget: Node3D = null
 	var closestDistance: float
 	for obj in targets:
 		var dist = controller.global_position.distance_squared_to(obj.global_position)
