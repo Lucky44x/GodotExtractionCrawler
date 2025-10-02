@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://ccmo4puth1w0"]
 
-[ext_resource type="Script" uid="uid://cydvoeu0is7co" path="res://scripts/entities/StatController.gd" id="1_fjsq2"]
+[ext_resource type="Script" uid="uid://cydvoeu0is7co" path="res://scripts/entities/components/statController/StatController.gd" id="1_fjsq2"]
 [ext_resource type="Script" uid="uid://bb3gg317y6nq1" path="res://scripts/pooling/NodePool.gd" id="2_7pcku"]
-[ext_resource type="PackedScene" uid="uid://bsuwsmovsmaa6" path="res://prefabs/stats/stat-modifier-node.tscn" id="3_6jna1"]
+[ext_resource type="PackedScene" uid="uid://bsuwsmovsmaa6" path="res://prefabs/components/stats/stat-modifier-node.tscn" id="3_6jna1"]
 
 [node name="StatController" type="Node"]
 script = ExtResource("1_fjsq2")

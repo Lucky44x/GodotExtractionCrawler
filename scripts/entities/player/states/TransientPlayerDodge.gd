@@ -22,7 +22,7 @@ func _ready():
 func Enter():
 	var inputDir = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 	
-	stat_controller.add_stat_modifier(dodge_stat_mod)
+	stat_controller.ApplyModifier(dodge_stat_mod)
 	
 	direction = Vector3.ZERO
 	direction += controller.camera_pivot.global_basis.x * inputDir.x

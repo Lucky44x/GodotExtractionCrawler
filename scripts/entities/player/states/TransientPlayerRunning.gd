@@ -8,8 +8,8 @@ var trans_mod: StatModifierNode
 var trans_stamina_mod: StatModifierNode
 
 func Enter():
-	trans_mod = stat_controller.add_stat_modifier(speed_stat)
-	trans_stamina_mod = stat_controller.add_stat_modifier(stamina_mod)
+	trans_mod = stat_controller.ApplyModifier(speed_stat)
+	trans_stamina_mod = stat_controller.ApplyModifier(stamina_mod)
 
 func Exit():
 	trans_mod.die()

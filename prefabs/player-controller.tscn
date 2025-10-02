@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=53 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -11,16 +11,18 @@
 [ext_resource type="Script" uid="uid://cqsis73v5qr3t" path="res://scripts/entities/player/states/TransientPlayerBlock.gd" id="7_0qcyq"]
 [ext_resource type="Script" uid="uid://dofyti6k6j38s" path="res://scripts/entities/player/states/TransientPlayerDodge.gd" id="8_d3mra"]
 [ext_resource type="Resource" uid="uid://xn4rk8nmql2l" path="res://resources/weapons/one_handed_sword/items/sword.tres" id="8_tofid"]
-[ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/EquipmentController.gd" id="9_0qcyq"]
+[ext_resource type="Script" uid="uid://b8tw0twqghynv" path="res://scripts/entities/components/EquipmentController.gd" id="9_0qcyq"]
 [ext_resource type="Script" uid="uid://cq8ba60xa7owg" path="res://scripts/entities/player/states/TransientPlayerLightAttack.gd" id="9_lmqpx"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="10_t2i2o"]
 [ext_resource type="Script" uid="uid://l1x7uep16mgb" path="res://scripts/entities/player/states/TransientPlayerHeavyAttack.gd" id="12_tm53r"]
 [ext_resource type="PackedScene" uid="uid://ccbrfe6blnh8b" path="res://prefabs/components/combat-controller.tscn" id="15_250kt"]
+[ext_resource type="PackedScene" uid="uid://bu670d203u4x0" path="res://prefabs/components/combo-controller.tscn" id="16_801f5"]
 [ext_resource type="Resource" uid="uid://ckvaigu87y8wr" path="res://resources/weapons/one_handed_sword/profiles/oh_heavy_stab.tres" id="16_gqpng"]
-[ext_resource type="Script" uid="uid://chxkbwwpcpgcj" path="res://scripts/entities/ComboController.gd" id="16_ohd7q"]
 [ext_resource type="AnimationLibrary" uid="uid://b5kwie374few5" path="res://animations/combat.res" id="16_wgn03"]
-[ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/stats/stat-controller.tscn" id="17_250kt"]
+[ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/components/stats/stat-controller.tscn" id="17_250kt"]
 [ext_resource type="Script" uid="uid://bg3dy1jtahxwh" path="res://scripts/debug/DebugAnimationCallback.gd" id="17_k1vjg"]
+[ext_resource type="PackedScene" uid="uid://dwhw8ucx5ml6u" path="res://prefabs/components/block-controller.tscn" id="18_tm53r"]
+[ext_resource type="PackedScene" uid="uid://d3etlwmr2c7sb" path="res://prefabs/components/hit-controller.tscn" id="19_iv77g"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
 
@@ -283,7 +285,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.99619466, 0, -0.08715574, 0, 0.99999994, 0, 0.08715573, 0, 0.9961947, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
@@ -361,24 +363,28 @@ SlotPivots = [NodePath("../Rig/HandR")]
 SlotNames = Array[String](["Main Weapon"])
 SlotConstraints = Array[int]([0])
 
-[node name="CombatController" parent="." node_paths=PackedStringArray("hitscan_root", "animation_tree", "debugAnimator") instance=ExtResource("15_250kt")]
+[node name="ComboController" parent="." node_paths=PackedStringArray("combat_controller", "equipment_controller") instance=ExtResource("16_801f5")]
+combat_controller = NodePath("../AttackController")
+equipment_controller = NodePath("../EquipmentController")
+
+[node name="AttackController" parent="." node_paths=PackedStringArray("hitscan_root", "animation_tree", "debugAnimator") instance=ExtResource("15_250kt")]
 hitscan_root = NodePath("../HitscanRoot")
 animation_tree = NodePath("../AnimationTree")
 currentProfile = ExtResource("16_gqpng")
 active_scan_zones = Array[bool]([false])
 debugAnimator = NodePath("../PlayerAnimation")
 
-[node name="ComboController" type="Node" parent="." node_paths=PackedStringArray("combat_controller", "equipment_controller")]
-script = ExtResource("16_ohd7q")
-combat_controller = NodePath("../CombatController")
-equipment_controller = NodePath("../EquipmentController")
+[node name="BlockController" parent="." node_paths=PackedStringArray("hit_controller") instance=ExtResource("18_tm53r")]
+hit_controller = NodePath("../HitController")
+
+[node name="HitController" parent="." instance=ExtResource("19_iv77g")]
 
 [node name="StatController" parent="." instance=ExtResource("17_250kt")]
 TrackedStats = Array[int]([0, 1, 2, 3, 4, 5, 6])
 CollectedStats = Array[int]([1, 3, 4, 6])
 
 [node name="PlayerAnimation" type="AnimationPlayer" parent="."]
-root_node = NodePath("../CombatController")
+root_node = NodePath("../AttackController")
 libraries = {
 &"": SubResource("AnimationLibrary_k1vjg"),
 &"combat": ExtResource("16_wgn03"),
@@ -387,7 +393,7 @@ libraries = {
 playback_default_blend_time = 1.0
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../CombatController")
+root_node = NodePath("../AttackController")
 tree_root = SubResource("AnimationNodeBlendTree_tm53r")
 anim_player = NodePath("../PlayerAnimation")
 parameters/Oneshot_LightAttack/active = false
@@ -399,7 +405,7 @@ parameters/Add2/add_amount = 1.0
 [node name="DebugAnimationCallback" type="Node" parent="." node_paths=PackedStringArray("Animator", "track_targets")]
 script = ExtResource("17_k1vjg")
 Animator = NodePath("../PlayerAnimation")
-track_targets = [NodePath("../CombatController")]
+track_targets = [NodePath("../AttackController")]
 callArray = [[{
 "args": [0],
 "method": &"internal_begin_hitscan"

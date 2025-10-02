@@ -58,10 +58,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 0)
 camera_pivot = NodePath("../CameraPivot")
 
 [node name="DummyEnemy" parent="." instance=ExtResource("3_4wyf3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36297, 0.0750008, -4.11857)
-
-[node name="DummyEnemy2" parent="." instance=ExtResource("3_4wyf3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.53504, 0.0750008, -2.02701)
-
-[node name="DummyEnemy3" parent="." instance=ExtResource("3_4wyf3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.42715, 0.0750008, 7.59941)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12206817, 0.07500005, -6.847225)

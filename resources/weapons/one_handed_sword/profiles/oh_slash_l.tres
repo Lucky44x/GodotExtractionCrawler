@@ -24,6 +24,7 @@ script = ExtResource("3_6de5n")
 animation = "combat/oh_sword_swing_l"
 colliders = Array[ExtResource("1_plkfd")]([SubResource("Resource_r38gm")])
 hit_effects = Array[ExtResource("2_0asko")]([SubResource("Resource_of664")])
+parry_timing = null
 _tool_selected_category = 1
 _tool_selected_stance = 0
 metadata/_custom_type_script = "uid://bekuvyga2nibg"

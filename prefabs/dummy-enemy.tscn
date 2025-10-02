@@ -1,121 +1,74 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbgkvj2scfsjq"]
+[gd_scene load_steps=13 format=3 uid="uid://cbgkvj2scfsjq"]
 
-[ext_resource type="Texture2D" uid="uid://v6si7b0dpn03" path="res://assets/debug/textures/Red/texture_09.png" id="1_mhm8o"]
+[ext_resource type="PackedScene" uid="uid://d3etlwmr2c7sb" path="res://prefabs/components/hit-controller.tscn" id="1_gmxpl"]
+[ext_resource type="Script" uid="uid://cm2nlpnpbyco" path="res://scripts/entities/CombatEntity.gd" id="1_ysw32"]
+[ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="2_ksgf3"]
+[ext_resource type="Curve" uid="uid://bo585vefbn04d" path="res://resources/curves/constant_curve.tres" id="3_1042f"]
+[ext_resource type="PackedScene" uid="uid://ccmo4puth1w0" path="res://prefabs/components/stats/stat-controller.tscn" id="3_ysw32"]
+[ext_resource type="PackedScene" uid="uid://s0k1i1gmobe0" path="res://prefabs/ux/3d/3d_progress_bar.tscn" id="6_1042f"]
+
+[sub_resource type="Resource" id="Resource_qfdra"]
+script = ExtResource("2_ksgf3")
+modifier_value = 100.0
+modifier_stacking_rule = 1
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
+
+[sub_resource type="Resource" id="Resource_kvicj"]
+script = ExtResource("2_ksgf3")
+target_stat = 1
+modifier_value = 100.0
+modifier_stacking_rule = 1
+modifier_type = 1
+modifier_id = "base_max_health"
+modifier_tier = 0
+duration_ms = -1
+falloff_operation = ExtResource("3_1042f")
+falloff_tracked_property = 0
+falloff_linked_stat = 0
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mt00v"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_488gm"]
-albedo_color = Color(0.758192, 0.758192, 0.758192, 1)
-albedo_texture = ExtResource("1_mhm8o")
-uv1_triplanar = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdvt0"]
+albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_mhm8o"]
-material = SubResource("StandardMaterial3D_488gm")
+[sub_resource type="SphereMesh" id="SphereMesh_gmxpl"]
+material = SubResource("StandardMaterial3D_rdvt0")
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_qfdra"]
-radius = 5.0
+[sub_resource type="ViewportTexture" id="ViewportTexture_1042f"]
+viewport_path = NodePath("SubViewport")
 
-[sub_resource type="Animation" id="Animation_1042f"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-tracks/1/type = "position_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("StaticBody3D")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 1, 0)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_qfdra"]
-_data = {
-&"RESET": SubResource("Animation_1042f")
-}
-
-[sub_resource type="Animation" id="Animation_kvicj"]
-length = 2.0
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.493037, 0, 0.666667, 1, -0.109558, 0.13395, 0.323176, 0.766667, 1, -0.298658, 0.13395, 0.538465, 0.966667, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.85598, -0.0536211, 0.120259, -0.49996, 0.566667, 1, -0.738506, -0.10299, 0.341969, 0.57189, 0.666667, 1, 0.162049, -0.307995, 0.0619721, 0.935435, 0.766667, 1, 0.649555, -0.223229, 0.221066, 0.692371, 0.866667, 1, 0.811269, -0.155861, 0.27278, 0.493094, 0.966667, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_832yo"]
-length = 4.0
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.5, 1, -0.0235078, -0.457362, 0.374234, 3, 1, -0.0235078, -0.457362, 0.374234, 3.5, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/WeaponPivot/WeaponHand")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.5, 1, 0.985642, 0, 0, 0.168851, 3, 1, 0.985642, 0, 0, 0.168851, 3.5, 1, 0, 0, 0, 1)
-tracks/2/type = "position_3d"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("StaticBody3D")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.5, 1, 0, 0.635625, 0.133986, 1, 1, 0, 0.760369, 0.0413323, 1.5, 1, 0, 0.679577, -0.0207774, 2, 1, 0, 0.840626, 0.0984127, 2.5, 1, 0, 0.700464, -0.00610054, 3, 1, 0, 1, 0)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_832yo"]
-_data = {
-&"l_attack_oh_sword": SubResource("Animation_kvicj"),
-&"stunned": SubResource("Animation_832yo")
-}
-
-[node name="DummyEnemy" type="Node3D"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="DummyEnemy" type="StaticBody3D" node_paths=PackedStringArray("health_bar")]
 collision_layer = 2
-collision_mask = 3
+script = ExtResource("1_ysw32")
+health_base_mod = SubResource("Resource_qfdra")
+max_health_base_mod = SubResource("Resource_kvicj")
+health_bar = NodePath("Model/HealthBar")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_mt00v")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("SphereMesh_mhm8o")
-
-[node name="DetectionArea" type="Area3D" parent="."]
-collision_layer = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_qfdra")
-debug_color = Color(0.800943, 0.420005, 0, 0.42)
-
-[node name="Pivot" type="Node3D" parent="."]
+[node name="Rig" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.996013, 0)
 
-[node name="WeaponPivot" type="Node3D" parent="Pivot"]
+[node name="WeaponPivot" type="Node3D" parent="Rig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
 
-[node name="WeaponHand" type="Node3D" parent="Pivot/WeaponPivot"]
+[node name="WeaponHand" type="Node3D" parent="Rig/WeaponPivot"]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot"]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_qfdra"),
-&"combat": SubResource("AnimationLibrary_832yo")
-}
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("SphereMesh_gmxpl")
+
+[node name="HealthBar" parent="Model" instance=ExtResource("6_1042f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+texture = SubResource("ViewportTexture_1042f")
+
+[node name="HitController" parent="." instance=ExtResource("1_gmxpl")]
+
+[node name="StatController" parent="." instance=ExtResource("3_ysw32")]
+TrackedStats = Array[int]([0, 1])
+CollectedStats = Array[int]([1])

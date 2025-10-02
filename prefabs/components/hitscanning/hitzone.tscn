@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bbrtw4uyqwkej"]
 
-[ext_resource type="Script" uid="uid://b2q6bu00ww63p" path="res://scripts/entities/hitzonePooling/HitzoneInstance.gd" id="1_oyh4p"]
+[ext_resource type="Script" uid="uid://b2q6bu00ww63p" path="res://scripts/entities/components/hitzonePooling/HitzoneInstance.gd" id="1_oyh4p"]
 
 [node name="HitzoneInstance" type="Node"]
 script = ExtResource("1_oyh4p")

@@ -1,5 +1,5 @@
 extends NodePoolInstance
-class_name Hitzone
+class_name HitzoneInstance
 
 var hitzone_area: Area3D
 var hitzone_shape: CollisionShape3D

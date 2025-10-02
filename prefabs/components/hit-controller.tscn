@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3etlwmr2c7sb"]
+
+[ext_resource type="Script" uid="uid://blhbuf5yxuy7l" path="res://scripts/entities/components/hitController/HitController.gd" id="1_qw8bl"]
+
+[node name="HitController" type="Node"]
+script = ExtResource("1_qw8bl")

@@ -3,7 +3,7 @@ class_name ComboController
 
 const _db: Database = preload("res://dbs/combat.gddb")
 
-@export var combat_controller: CombatController
+@export var combat_controller: AttackController
 @export var equipment_controller: EquipmentController
 
 var _current_stance: StanceProfile

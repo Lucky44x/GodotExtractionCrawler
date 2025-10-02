@@ -6,8 +6,8 @@ extends State
 
 func _ready():
 	await get_tree().process_frame
-	stat_controller.add_stat_modifier(walking_stat)
-	stat_controller.add_stat_modifier(stamina_stat)
+	stat_controller.ApplyModifier(walking_stat)
+	stat_controller.ApplyModifier(stamina_stat)
 
 func Update(_delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "combat")

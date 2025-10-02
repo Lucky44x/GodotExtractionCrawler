@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="AttackProfile" load_steps=6 format=3 uid="uid://ckvaigu87y8wr"]
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=8 format=3 uid="uid://ckvaigu87y8wr"]
 
 [ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/combat_data/HitscanCollider.gd" id="1_uhe5u"]
 [ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="2_7mxa8"]
+[ext_resource type="Curve" uid="uid://bo585vefbn04d" path="res://resources/curves/constant_curve.tres" id="3_7mxa8"]
 [ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/combat_data/AttackProfile.gd" id="3_e3e3u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sqe0f"]
@@ -13,11 +14,27 @@ Position = Vector3(0, 0, -0.75)
 Shape = SubResource("BoxShape3D_sqe0f")
 metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
 
+[sub_resource type="Resource" id="Resource_e3e3u"]
+script = ExtResource("2_7mxa8")
+modifier_value = -100.0
+modifier_stacking_rule = 2
+modifier_type = 2
+modifier_id = "poison"
+modifier_tier = 1
+duration_ms = 7000
+falloff_operation = ExtResource("3_7mxa8")
+falloff_tracked_property = 0
+falloff_linked_stat = 0
+recurring_frequency_ms = 1000
+metadata/_custom_type_script = "uid://7bo8ucqhauky"
+
 [resource]
 script = ExtResource("3_e3e3u")
 animation = "combat/oh_sword_heavy_stab"
 colliders = Array[ExtResource("1_uhe5u")]([SubResource("Resource_sqe0f")])
+hit_effects = Array[ExtResource("2_7mxa8")]([SubResource("Resource_e3e3u")])
 attack_type = 1
+parry_timing = null
 _tool_selected_category = 1
 _tool_selected_stance = 0
 metadata/_custom_type_script = "uid://bekuvyga2nibg"

@@ -6,20 +6,20 @@ extends State
 
 @export var speed_stat: StatModifier
 
-@export var heavy_attack_hold_time_ms: int
+@export var heavy_attack_hold_time_ms: int = -1
 
 var trans_mod: StatModifierNode
 
 var target: Node3D
 
-var begin_attack_input: int = 0
+var begin_attack_input: int = -1
 var heavy_notified: bool = false
 
 func _ready():
 	controller = $"../.."
 
 func Enter():
-	trans_mod = stat_controller.add_stat_modifier(speed_stat)
+	trans_mod = stat_controller.ApplyModifier(speed_stat)
 	# Initialize Combo Controller
 	combo_controller.intialize_state()
 	

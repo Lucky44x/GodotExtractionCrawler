@@ -57,3 +57,10 @@ enum StatType {
 	ComboScore,
 	ComboDecay
 }
+
+enum HitState {
+	Accepted,
+	Blocked,
+	Parried,
+	Invalid
+}

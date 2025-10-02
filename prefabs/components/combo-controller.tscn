@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu670d203u4x0"]
+
+[ext_resource type="Script" uid="uid://chxkbwwpcpgcj" path="res://scripts/entities/components/ComboController.gd" id="1_3co4c"]
+
+[node name="ComboController" type="Node" node_paths=PackedStringArray("combat_controller", "equipment_controller")]
+script = ExtResource("1_3co4c")
+combat_controller = NodePath("")
+equipment_controller = NodePath("")

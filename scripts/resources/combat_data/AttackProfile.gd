@@ -6,6 +6,7 @@ class_name AttackProfile
 @export var colliders: Array[HitscanCollider]
 @export var hit_effects: Array[StatModifier]
 @export var attack_type: GameInfo.AttackType : set = invalidate_type
+@export var parry_timing: int
 
 var next_stance: StringName
 

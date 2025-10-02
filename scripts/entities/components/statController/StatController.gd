@@ -8,6 +8,7 @@ class_name StatController
 var mod_dictionary: Dictionary = {}
 var cleanup_array: Array[StatModifierNode] = []
 
+## Gets called when a stat is updated... Sig: StatUpdated(stat: StatType, val: float)
 signal StatUpdated
 
 func _ready():
@@ -26,8 +27,17 @@ func _ready():
 		subInstance.name = "_internal_oneshot"
 		instance.add_child(subInstance)
 		
-		var stat_dict : Dictionary = get_modifier_stat_dict(GameInfo.StatType.get(val))
+		var stat_dict : Dictionary = _get_modifier_stat_dict(GameInfo.StatType.get(val))
 		stat_dict.set(subInstance.name, subInstance)
+
+func ApplyModifier(mod: StatModifier) -> StatModifierNode:
+	return _add_stat_modifier(mod)
+
+func ApplyModifiers(mods: Array[StatModifier]) -> Array[StatModifierNode]:
+	var ret: Array[StatModifierNode] = []
+	for mod in mods:
+		ret.append(_add_stat_modifier(mod))
+	return ret
 
 func SetStat(stat: GameInfo.StatType, value: float):
 	if not TrackedStats.has(stat): return
@@ -41,23 +51,24 @@ func GetStat(stat: GameInfo.StatType) -> float:
 func _process(_delta: float):
 	for idx in len(StatValues):
 		var stat: GameInfo.StatType = idx as GameInfo.StatType
+		if not TrackedStats.has(stat): continue
 		if CollectedStats.has(stat): continue
-		update_tracked_stat(stat)
+		_update_tracked_stat(stat)
 	
 	for stat in CollectedStats:
-		update_stat_modifier_nodes(stat)
+		_update_stat_modifier_nodes(stat)
 	
-	handle_cleanup()
+	_handle_cleanup()
 
-func update_tracked_stat(stat: GameInfo.StatType):
-	StatValues[stat] += collect_stat_modifier_values(stat)
+func _update_tracked_stat(stat: GameInfo.StatType):
+	StatValues[stat] += _collect_stat_modifier_values(stat)
 	StatUpdated.emit(stat, StatValues[stat])
 
-func rebuild_tracked_stat(stat: GameInfo.StatType):
-	StatValues[stat] = collect_stat_modifier_values(stat)
+func _rebuild_tracked_stat(stat: GameInfo.StatType):
+	StatValues[stat] = _collect_stat_modifier_values(stat)
 	StatUpdated.emit(stat, StatValues[stat])
 
-func handle_cleanup():
+func _handle_cleanup():
 	var dict: Dictionary = {}
 	for node: StatModifierNode in cleanup_array:
 		if CollectedStats.has(node.modifier_data.target_stat):
@@ -67,9 +78,9 @@ func handle_cleanup():
 	
 	cleanup_array.clear()
 	for stat in dict.keys():
-		rebuild_tracked_stat(stat)
+		_rebuild_tracked_stat(stat)
 
-func update_stat_modifier_nodes(stat: GameInfo.StatType):
+func _update_stat_modifier_nodes(stat: GameInfo.StatType):
 	# Get the root node for this stat
 	var root_node = get_node("%" + GameInfo.StatType.keys()[stat])
 	
@@ -86,9 +97,10 @@ func update_stat_modifier_nodes(stat: GameInfo.StatType):
 			
 			if mod_node.should_die: cleanup_array.append(mod_node)
 
-func collect_stat_modifier_values(stat: GameInfo.StatType) -> float:
+func _collect_stat_modifier_values(stat: GameInfo.StatType) -> float:
 	# Get the root node for this stat
 	var root_node = get_node("%" + GameInfo.StatType.keys()[stat])
+	
 	var collected_stat_value_addition: float = 0.0
 	var collected_stat_value_multiplication: float = 1.0
 	
@@ -143,9 +155,9 @@ func collect_stat_modifier_values(stat: GameInfo.StatType) -> float:
 	var final_value: float = collected_stat_value_addition * collected_stat_value_multiplication
 	return final_value
 
-func add_stat_modifier(new_modifier: StatModifier) -> StatModifierNode:
+func _add_stat_modifier(new_modifier: StatModifier) -> StatModifierNode:
 	# First, get the collection for this modifier
-	var collection_node = find_modifier_node(new_modifier)
+	var collection_node = _find_modifier_node(new_modifier)
 	# Check unique case:
 	if new_modifier.modifier_stacking_rule == GameInfo.ModifierStackingRule.Unique:
 		if collection_node.get_child_count() > 0:	# Already present, check and apply constraints
@@ -161,18 +173,18 @@ func add_stat_modifier(new_modifier: StatModifier) -> StatModifierNode:
 	newInstance.setup(new_modifier)
 	newInstance.reparent(collection_node)
 	
-	if CollectedStats.has(new_modifier.target_stat): rebuild_tracked_stat(new_modifier.target_stat)
+	if CollectedStats.has(new_modifier.target_stat): _rebuild_tracked_stat(new_modifier.target_stat)
 	return newInstance
 
-func get_modifier_stat_dict(stat: GameInfo.StatType) -> Dictionary:
+func _get_modifier_stat_dict(stat: GameInfo.StatType) -> Dictionary:
 	return mod_dictionary.get_or_add(stat, {})
 
-func find_modifier_node(new_modifier: StatModifier) -> Node:
+func _find_modifier_node(new_modifier: StatModifier) -> Node:
 	var mod_id_name: String = "_internal_oneshot"
 	if new_modifier.modifier_type != GameInfo.ModifierType.Oneshot:
 		mod_id_name = str(new_modifier.modifier_id)
 	
-	var stat_dictionary = get_modifier_stat_dict(new_modifier.target_stat)
+	var stat_dictionary = _get_modifier_stat_dict(new_modifier.target_stat)
 	var cachedNode = stat_dictionary.get(mod_id_name)
 	if cachedNode != null:
 		return cachedNode
@@ -188,6 +200,3 @@ func find_modifier_node(new_modifier: StatModifier) -> Node:
 	
 	stat_dictionary.set(mod_id_name, mod_id_node)
 	return mod_id_node
-
-func rebuild_mod_dict():
-	pass # TODO: rebuild the ENTIRE mod dictionary to allow for lazy clearing during save or othewise

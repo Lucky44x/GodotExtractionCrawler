@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwhw8ucx5ml6u"]
+
+[ext_resource type="Script" uid="uid://b5euu7is7py1s" path="res://scripts/entities/components/BlockController.gd" id="1_adyle"]
+
+[node name="BlockController" type="Node" node_paths=PackedStringArray("hit_controller")]
+script = ExtResource("1_adyle")
+hit_controller = NodePath("")
