@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://cx16kx72mun66"]
+
+[ext_resource type="Script" uid="uid://dkyxp5xsncfib" path="res://scripts/entities/components/interaction/Interactable.gd" id="1_pc1go"]
+[ext_resource type="Script" uid="uid://cub43aimxq0dh" path="res://scripts/Test.gd" id="2_hn3b2"]
+[ext_resource type="Script" uid="uid://dt1ttbl83aimk" path="res://scripts/entities/components/InteractionMarker.gd" id="3_hn3b2"]
+[ext_resource type="Texture2D" uid="uid://ordi82peyptd" path="res://icon.svg" id="4_us6ob"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4wyf3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4wyf3"]
+albedo_color = Color(0, 1, 0.1833334, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_4wyf3"]
+material = SubResource("StandardMaterial3D_4wyf3")
+
+[node name="InteractionDummy" type="StaticBody3D"]
+collision_layer = 8
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_4wyf3")
+debug_color = Color(1.92523e-07, 0.6447946, 0.2799764, 0.41960785)
+
+[node name="Model" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4wyf3")
+
+[node name="Test" type="Node" parent="."]
+script = ExtResource("2_hn3b2")
+
+[node name="Interactable" type="Node" parent="."]
+script = ExtResource("1_pc1go")
+metadata/_custom_type_script = "uid://dkyxp5xsncfib"
+
+[node name="MarkerIcon" type="Sprite3D" parent="." node_paths=PackedStringArray("interactable")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3487314, 0)
+visible = false
+billboard = 1
+double_sided = false
+texture = ExtResource("4_us6ob")
+script = ExtResource("3_hn3b2")
+interactable = NodePath("../Interactable")

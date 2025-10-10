@@ -64,3 +64,10 @@ enum HitState {
 	Parried,
 	Invalid
 }
+
+enum InteractionState {
+	Accepted,
+	Failed,
+	Invalid,
+	NoTarget
+}

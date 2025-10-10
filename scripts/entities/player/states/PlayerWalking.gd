@@ -4,6 +4,8 @@ extends State
 @export var walking_stat: StatModifier
 @export var stamina_stat: StatModifier
 
+@onready var interaction_controller: InteractionController = $"../../InteractionController"
+
 func _ready():
 	await get_tree().process_frame
 	stat_controller.ApplyModifier(walking_stat)
@@ -12,3 +14,9 @@ func _ready():
 func Update(_delta: float):
 	if Input.is_action_just_pressed("lock_enemy"): parent.state_transition(self, "combat")
 	elif Input.is_action_pressed("combat_dodge"): parent.push_transient_state(self, "trans_running")
+	
+	# Run Interaction coroutines
+	if Input.is_action_just_pressed("interact"):
+		var result = interaction_controller.InteractNearest()
+		if result.result != GameInfo.InteractionState.Accepted:
+			push_error("Error: Interaction was not accepted")

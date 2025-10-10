@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://b0wly204l2ena"]
+[gd_scene load_steps=55 format=3 uid="uid://b0wly204l2ena"]
 
 [ext_resource type="Script" uid="uid://jcofvi7o5sx6" path="res://scripts/entities/player/PlayerController.gd" id="1_3d8xk"]
 [ext_resource type="Texture2D" uid="uid://cqcy0ktn0qa3i" path="res://assets/debug/textures/Light/texture_07.png" id="1_hcqin"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://bg3dy1jtahxwh" path="res://scripts/debug/DebugAnimationCallback.gd" id="17_k1vjg"]
 [ext_resource type="PackedScene" uid="uid://dwhw8ucx5ml6u" path="res://prefabs/components/block-controller.tscn" id="18_tm53r"]
 [ext_resource type="PackedScene" uid="uid://d3etlwmr2c7sb" path="res://prefabs/components/hit-controller.tscn" id="19_iv77g"]
+[ext_resource type="Script" uid="uid://cpr3qwl7h1m2j" path="res://scripts/entities/components/interaction/InteractionController.gd" id="22_klqbu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcqin"]
 
@@ -169,6 +170,9 @@ falloff_tracked_property = 0
 falloff_linked_stat = 0
 metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_klqbu"]
+radius = 2.0
+
 [sub_resource type="Animation" id="Animation_wgn03"]
 length = 0.001
 loop_mode = 1
@@ -261,7 +265,6 @@ filters = [".", "../Rig/HandR"]
 animation = &"RESET"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tm53r"]
-graph_offset = Vector2(-239.13786, -103.93148)
 nodes/output/position = Vector2(1213.3334, 120)
 nodes/AttackAnimation/node = SubResource("AnimationNodeAnimation_250kt")
 nodes/AttackAnimation/position = Vector2(-120, 240)
@@ -285,7 +288,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99619466, 0, -0.08715574, 0, 0.99999994, 0, 0.08715573, 0, 0.9961947, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
@@ -356,6 +359,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
 [node name="HitscanRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
+[node name="InteractionController" type="Node" parent="." node_paths=PackedStringArray("search_area")]
+script = ExtResource("22_klqbu")
+search_area = NodePath("../InteractionArea")
+metadata/_custom_type_script = "uid://cpr3qwl7h1m2j"
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("CylinderShape3D_klqbu")
+debug_color = Color(0, 0.63521165, 0.42367238, 0.41960785)
+
 [node name="EquipmentController" type="Node" parent="." node_paths=PackedStringArray("SlotPivots")]
 script = ExtResource("9_0qcyq")
 EquipmentSlots = Array[ExtResource("10_t2i2o")]([ExtResource("8_tofid")])
@@ -413,11 +428,11 @@ callArray = [[{
 "args": [],
 "method": &"internal_lock_interrupt"
 }, {
-"args": [0],
-"method": &"internal_end_hitscan"
-}, {
 "args": [],
 "method": &"internal_unlock_interrupt"
+}, {
+"args": [0],
+"method": &"internal_end_hitscan"
 }]]
-keyTimes = [[1.1, 1.1333333, 1.6, 2.0]]
-currentKeyFrames = Array[int]([4])
+keyTimes = [[0.3, 0.32881567, 0.7943216, 0.8]]
+currentKeyFrames = Array[int]([3])

@@ -136,7 +136,7 @@ func _resolve_hits(hits: Array[Node3D]):
 		var hit_controller: HitController = hit.find_child("HitController")
 		if hit_controller == null: continue
 		var result: HitResult = hit_controller.transmit_hit(_hit_modifiers, currentProfile.parry_timing)
-		## TODO: Handl result -> Hit-Parry -Block and -Land signals
+		## TODO: Implement result consumption -> Actual stuff happens when hit/blocked/parried
 
 func _perform_hitsweep():
 	var final_new_hits: Array[Node3D] = []

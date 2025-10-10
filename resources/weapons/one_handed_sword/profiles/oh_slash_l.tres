@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="AttackProfile" load_steps=7 format=3 uid="uid://cvt27u74alxa2"]
+[gd_resource type="Resource" script_class="AttackProfile" load_steps=8 format=3 uid="uid://cvt27u74alxa2"]
 
 [ext_resource type="Script" uid="uid://dotqq7pu2ep2l" path="res://scripts/resources/combat_data/HitscanCollider.gd" id="1_plkfd"]
 [ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="2_0asko"]
+[ext_resource type="Curve" uid="uid://bo585vefbn04d" path="res://resources/curves/constant_curve.tres" id="3_0asko"]
 [ext_resource type="Script" uid="uid://bekuvyga2nibg" path="res://scripts/resources/combat_data/AttackProfile.gd" id="3_6de5n"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r38gm"]
@@ -17,6 +18,14 @@ metadata/_custom_type_script = "uid://dotqq7pu2ep2l"
 script = ExtResource("2_0asko")
 modifier_value = -15.0
 modifier_stacking_rule = 1
+modifier_type = 2
+modifier_id = "posion"
+modifier_tier = 0
+duration_ms = 7000
+falloff_operation = ExtResource("3_0asko")
+falloff_tracked_property = 0
+falloff_linked_stat = 0
+recurring_frequency_ms = 1000
 metadata/_custom_type_script = "uid://7bo8ucqhauky"
 
 [resource]
@@ -24,7 +33,6 @@ script = ExtResource("3_6de5n")
 animation = "combat/oh_sword_swing_l"
 colliders = Array[ExtResource("1_plkfd")]([SubResource("Resource_r38gm")])
 hit_effects = Array[ExtResource("2_0asko")]([SubResource("Resource_of664")])
-parry_timing = null
-_tool_selected_category = 1
+_tool_selected_category = 0
 _tool_selected_stance = 0
 metadata/_custom_type_script = "uid://bekuvyga2nibg"
