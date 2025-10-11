@@ -16,6 +16,7 @@ class_name StatModifier
 @export_range(0, 1, 0.05) var modifier_activation_prob: float = 1
 
 @export var modifier_stacking_rule: GameInfo.ModifierStackingRule
+@export var modifier_stacking_space: GameInfo.ModifierStackingSpace
 
 @export var modifier_type: GameInfo.ModifierType : set = invalidate_mod_type
 

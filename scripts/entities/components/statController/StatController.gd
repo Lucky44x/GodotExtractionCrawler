@@ -108,25 +108,32 @@ func _collect_stat_modifier_values(stat: GameInfo.StatType) -> float:
 		if sub_node.get_child_count() == 0: continue
 		
 		var collected_mod_value: float = 0.0
+		var collected_mod_mult: float = 1.0
 		var highest_node_tier: int = 0
 		var mod_node_idx: int = 0
 		var mod_node: StatModifierNode = sub_node.get_child(0)
 		
 		var mod_operation: GameInfo.ModifierOperation = mod_node.operation()
-		if mod_operation == GameInfo.ModifierOperation.Multiply: collected_mod_value = 1.0
+		var mod_space: GameInfo.ModifierStackingSpace = mod_node.space()
 		
+		# Loop over child nodes of the group
 		while mod_node_idx < sub_node.get_child_count():
 			mod_node = sub_node.get_child(mod_node_idx)
+			mod_operation = mod_node.operation()
+			mod_space = mod_node.space()
+			
 			var node_value: float = mod_node.sample(self)
 			var node_tier: int = mod_node.modifier_data.modifier_tier
 			
 			if node_tier > highest_node_tier: highest_node_tier = node_tier
+			#region stacking logic
 			if mod_node.stacking() == GameInfo.ModifierStackingRule.Highest:
 				if node_tier < highest_node_tier:
 					mod_node_idx += 1
 					if mod_node_idx >= sub_node.get_child_count(): break
 					continue
 				var idx_int = mod_node_idx
+				# Search ahead for possible higher tier node
 				while idx_int < sub_node.get_child_count():
 					var int_node: StatModifierNode = sub_node.get_child(idx_int)
 					if int_node.is_oneshot():
@@ -140,17 +147,23 @@ func _collect_stat_modifier_values(stat: GameInfo.StatType) -> float:
 				if highest_node_tier > node_tier:
 					if mod_node_idx >= sub_node.get_child_count(): break
 					continue
+			#endregion
 			
-			if mod_operation == GameInfo.ModifierOperation.Multiply: collected_mod_value *= node_value
-			else: collected_mod_value += node_value
+			if mod_space == GameInfo.ModifierStackingSpace.Local:
+				if mod_operation == GameInfo.ModifierOperation.Multiply: collected_mod_mult *= node_value
+				else: collected_mod_value += node_value
+			else:
+				if mod_operation == GameInfo.ModifierOperation.Multiply: collected_stat_value_multiplication *= node_value
+				else: collected_stat_value_addition += node_value
+			
 			if mod_node.should_die: cleanup_array.append(mod_node)
 			mod_node_idx += 1
 			if mod_node_idx >= sub_node.get_child_count(): break
+		# END OF GROUP LOOPOVER
 		
-		# Add modifier value to the temporary stat-values
-		if mod_operation == GameInfo.ModifierOperation.Add: collected_stat_value_addition += collected_mod_value
-		else: collected_stat_value_multiplication *= collected_mod_value
-	
+		# Apply group-value to stat-value
+		collected_stat_value_addition += collected_mod_value * collected_mod_mult
+		
 	# Obey the rule first addition, then multiplication... should make for better results
 	var final_value: float = collected_stat_value_addition * collected_stat_value_multiplication
 	return final_value

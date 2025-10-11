@@ -41,6 +41,12 @@ enum ModifierStackingRule {
 	Highest
 }
 
+## CAUTION: Does not denote if Modifier stacks based on it's rule in this Space, but rather if it's value is stacked in what space this value is stacked
+enum ModifierStackingSpace {
+	Local,
+	Global
+}
+
 enum ModifierFalloffTarget {
 	None,
 	Stat,

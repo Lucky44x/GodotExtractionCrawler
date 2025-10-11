@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://3qcmi1grbjrv"]
+[gd_scene load_steps=8 format=3 uid="uid://3qcmi1grbjrv"]
 
+[ext_resource type="Texture2D" uid="uid://bi3glor3ts0cl" path="res://assets/debug/textures/Dark/texture_07.png" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://b0wly204l2ena" path="res://prefabs/player-controller.tscn" id="2_rwgxs"]
 [ext_resource type="PackedScene" uid="uid://cbgkvj2scfsjq" path="res://prefabs/dummy-enemy.tscn" id="3_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://cx16kx72mun66" path="res://prefabs/interaction-dummy.tscn" id="4_k0juu"]
@@ -7,6 +8,14 @@
 [sub_resource type="Environment" id="Environment_k0juu"]
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71j4m"]
+albedo_texture = ExtResource("1_k0juu")
+uv1_scale = Vector3(50, 50, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4wyf3"]
+material = SubResource("StandardMaterial3D_71j4m")
+size = Vector2(100, 100)
 
 [node name="World" type="Node3D"]
 
@@ -19,24 +28,13 @@ environment = SubResource("Environment_k0juu")
 transform = Transform3D(-0.86602354, -0.43301606, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 0, 0)
 shadow_enabled = true
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="ENV"]
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="ENV/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0)
-size = Vector3(5, 10, 5)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="ENV/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 0)
-size = Vector3(5, 10, 5)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="ENV/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-size = Vector3(30, 1, 5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ENV"]
+mesh = SubResource("PlaneMesh_4wyf3")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(0.90630776, -0.29883626, 0.29883626, 0, 0.7071068, 0.7071068, -0.42261827, -0.6408564, 0.6408564, 15, 40, 30)
+transform = Transform3D(0.9063077, -0.29883623, 0.29883623, 0, 0.70710677, 0.70710677, -0.42261824, -0.6408563, 0.6408563, 10, 40, 30)
 projection = 1
 size = 25.0
 

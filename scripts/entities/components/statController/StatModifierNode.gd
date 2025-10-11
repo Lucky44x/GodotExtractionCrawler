@@ -18,6 +18,7 @@ func setup(mod: StatModifier):
 func is_oneshot() -> bool: return modifier_data.modifier_type == GameInfo.ModifierType.Oneshot
 func stacking() -> GameInfo.ModifierStackingRule: return modifier_data.modifier_stacking_rule
 func operation() -> GameInfo.ModifierOperation: return modifier_data.modifier_operation
+func space() -> GameInfo.ModifierStackingSpace: return modifier_data.modifier_stacking_space
 
 func die():
 	should_die = true
