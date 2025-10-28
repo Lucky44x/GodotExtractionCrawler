@@ -12,4 +12,6 @@ _tool_selected_stance = 0
 name = "Rusty Sword"
 descriptor = "The most basic of weapons"
 prefab = ExtResource("3_ishbs")
+occupation_size = Vector2i(1, 2)
+occupation_mask = Array[Array]([[true, true]])
 metadata/_custom_type_script = "uid://ugxrfankbuyl"

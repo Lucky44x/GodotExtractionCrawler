@@ -289,7 +289,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99619466, 0, 0.08715574, 0, 0.99999994, 0, -0.08715573, 0, 0.9961947, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")
@@ -324,8 +324,8 @@ speed_stat = SubResource("Resource_tm53r")
 heavy_attack_hold_time_ms = 250
 
 [node name="LockonArea" type="Area3D" parent="StateMachine/combat"]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 2
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StateMachine/combat/LockonArea"]
 shape = SubResource("CylinderShape3D_3d8xk")
@@ -366,7 +366,8 @@ search_area = NodePath("../InteractionArea")
 metadata/_custom_type_script = "uid://cpr3qwl7h1m2j"
 
 [node name="InteractionArea" type="Area3D" parent="."]
-collision_mask = 8
+collision_layer = 2
+collision_mask = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
 shape = SubResource("CylinderShape3D_klqbu")

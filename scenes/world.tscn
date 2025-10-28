@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://3qcmi1grbjrv"]
+[gd_scene load_steps=13 format=3 uid="uid://3qcmi1grbjrv"]
 
 [ext_resource type="Texture2D" uid="uid://bi3glor3ts0cl" path="res://assets/debug/textures/Dark/texture_07.png" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://b0wly204l2ena" path="res://prefabs/player-controller.tscn" id="2_rwgxs"]
 [ext_resource type="PackedScene" uid="uid://cbgkvj2scfsjq" path="res://prefabs/dummy-enemy.tscn" id="3_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://cx16kx72mun66" path="res://prefabs/interaction-dummy.tscn" id="4_k0juu"]
 [ext_resource type="PackedScene" uid="uid://5k4n7a1qrobl" path="res://prefabs/item-instance.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://uchc5cl70evr" path="res://prefabs/ux/inventory/player-inventory.tscn" id="6_qfnet"]
+[ext_resource type="PackedScene" uid="uid://cuj0cpblou8ni" path="res://prefabs/ux/inventory/inventory-drag.tscn" id="7_4mrxx"]
+[ext_resource type="Resource" uid="uid://cfucw32cgh1nw" path="res://resources/items/dummy-item.tres" id="8_7r4gi"]
 
 [sub_resource type="Environment" id="Environment_k0juu"]
 tonemap_mode = 2
@@ -63,3 +66,13 @@ skeleton = NodePath("../../ENV")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("HeightMapShape3D_71j4m")
+
+[node name="PlayerInventory" parent="." instance=ExtResource("6_qfnet")]
+
+[node name="InventoryItemDrag" parent="." node_paths=PackedStringArray("inventory") instance=ExtResource("7_4mrxx")]
+offset_left = 250.0
+offset_top = 250.0
+offset_right = 314.0
+offset_bottom = 314.0
+inventory = NodePath("../PlayerInventory")
+itemData = ExtResource("8_7r4gi")

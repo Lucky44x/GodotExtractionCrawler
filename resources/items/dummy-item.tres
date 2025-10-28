@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://cfucw32cgh1nw"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=5 format=3 uid="uid://cfucw32cgh1nw"]
 
 [ext_resource type="Script" uid="uid://7bo8ucqhauky" path="res://scripts/resources/stat_data/StatModifier.gd" id="1_kxfeb"]
 [ext_resource type="Script" uid="uid://dftysctitabs5" path="res://scripts/resources/ItemData.gd" id="2_a15g3"]
 [ext_resource type="PackedScene" uid="uid://d2uqpblgmowql" path="res://prefabs/dummy-item.tscn" id="2_xq4ga"]
+[ext_resource type="Texture2D" uid="uid://dyeih8xv0wc7d" path="res://assets/sprites/items/item100.png" id="4_xq4ga"]
 
 [resource]
 script = ExtResource("2_a15g3")
 name = "Dummy-Item"
 descriptor = "A simple Debug-Item"
 prefab = ExtResource("2_xq4ga")
+ui_texture = ExtResource("4_xq4ga")
+occupation_size = Vector2i(2, 2)
+occupation_mask = Array[Array]([[true, true], [true, true]])
 metadata/_custom_type_script = "uid://dftysctitabs5"

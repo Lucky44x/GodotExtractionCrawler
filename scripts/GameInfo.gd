@@ -1,6 +1,9 @@
 extends Object
 class_name GameInfo
 
+const InventoryCellWidth : int = 64
+const InventoryCellHeight : int = 64
+
 enum ItemRarity {
 	Abundant,
 	Common,

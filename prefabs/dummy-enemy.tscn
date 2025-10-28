@@ -39,7 +39,7 @@ material = SubResource("StandardMaterial3D_rdvt0")
 viewport_path = NodePath("SubViewport")
 
 [node name="DummyEnemy" type="StaticBody3D" node_paths=PackedStringArray("health_bar")]
-collision_layer = 2
+collision_layer = 4
 script = ExtResource("1_ysw32")
 health_base_mod = SubResource("Resource_qfdra")
 max_health_base_mod = SubResource("Resource_kvicj")

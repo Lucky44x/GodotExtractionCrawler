@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://uchc5cl70evr"]
+
+[ext_resource type="Script" uid="uid://btb4vbc2cdhdy" path="res://scripts/ux/inventory/InventoryUIController.gd" id="1_vqw2l"]
+
+[node name="PlayerInventory" type="Control" node_paths=PackedStringArray("inventory_grid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vqw2l")
+width = 5
+height = 5
+inventory_grid = NodePath("ScrollContainer/InventoryGrid")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 192.0
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="InventoryGrid" type="GridContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+columns = 5

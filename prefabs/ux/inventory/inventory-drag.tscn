@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuj0cpblou8ni"]
+
+[ext_resource type="Script" uid="uid://bahuqiv20rh2w" path="res://scripts/ux/inventory/InventoryDragController.gd" id="1_w4u2g"]
+
+[node name="InventoryItemDrag" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+script = ExtResource("1_w4u2g")
+
+[node name="BackgroundGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemTexture" type="TextureRect" parent="AspectRatioContainer"]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 2
