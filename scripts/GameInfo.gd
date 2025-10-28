@@ -10,6 +10,7 @@ enum ItemRarity {
 }
 
 enum ItemType {
+	General,
 	Weapon,
 	Defense,
 	Ranged,

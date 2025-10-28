@@ -279,7 +279,8 @@ nodes/Add2/position = Vector2(133.33333, -66.666664)
 node_connections = [&"output", 0, &"Oneshot_LightAttack", &"Oneshot_LightAttack", 0, &"Add2", &"Oneshot_LightAttack", 1, &"AttackAnimation", &"Add2", 0, &"MovementBlend", &"Add2", 1, &"StanceAnimation"]
 
 [node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("stat_controller", "animation_tree")]
-collision_mask = 3
+collision_layer = 3
+collision_mask = 5
 script = ExtResource("1_3d8xk")
 stat_controller = NodePath("StatController")
 animation_tree = NodePath("AnimationTree")
@@ -288,7 +289,7 @@ animation_tree = NodePath("AnimationTree")
 shape = SubResource("CapsuleShape3D_hcqin")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(0.99619466, 0, -0.08715574, 0, 0.99999994, 0, 0.08715573, 0, 0.9961947, 0, 0, 0)
+transform = Transform3D(0.99619466, 0, 0.08715574, 0, 0.99999994, 0, -0.08715573, 0, 0.9961947, 0, 0, 0)
 
 [node name="BodyMesh" type="MeshInstance3D" parent="Model"]
 mesh = SubResource("CapsuleMesh_hcqin")

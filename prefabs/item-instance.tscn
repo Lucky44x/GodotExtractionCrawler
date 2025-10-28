@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://5k4n7a1qrobl"]
+
+[ext_resource type="Script" uid="uid://wautqd6erqa5" path="res://scripts/entities/item/ItemInstance.gd" id="1_c7grj"]
+[ext_resource type="Resource" uid="uid://cfucw32cgh1nw" path="res://resources/items/dummy-item.tres" id="2_c7grj"]
+[ext_resource type="PackedScene" uid="uid://36m542biq7mo" path="res://prefabs/components/interactable.tscn" id="3_57tyv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_apk76"]
+
+[node name="ItemInstance" type="RigidBody3D"]
+collision_layer = 17
+script = ExtResource("1_c7grj")
+data = ExtResource("2_c7grj")
+
+[node name="collider" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_apk76")
+debug_color = Color(0.9793187, 0, 0.39287886, 0.41960785)
+
+[node name="Interactable" parent="." instance=ExtResource("3_57tyv")]

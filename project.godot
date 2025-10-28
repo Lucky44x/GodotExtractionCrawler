@@ -102,7 +102,8 @@ interact={
 
 [layer_names]
 
-3d_physics/layer_1="Player"
-3d_physics/layer_2="Enemy"
-3d_physics/layer_3="Weapon"
-3d_physics/layer_4="Interaction"
+3d_physics/layer_1="Default"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Enemy"
+3d_physics/layer_4="Weapon"
+3d_physics/layer_5="Interaction"

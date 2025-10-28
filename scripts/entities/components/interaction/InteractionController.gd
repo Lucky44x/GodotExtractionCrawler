@@ -17,6 +17,7 @@ func _search_interactables():
 		var interactable: Interactable = hit.find_child("Interactable")
 		if interactable == null: continue
 		_interactables.append(interactable)
+		print(interactable)
 
 func _find_closest_entity():
 	# No Interactable found so current one should also be invalid
